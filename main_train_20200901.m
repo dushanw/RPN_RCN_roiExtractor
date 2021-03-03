@@ -14,7 +14,7 @@
 %     2. Region Proposal Extraction 
 %     3. Run RCN
 
-addpath('./_data0/') % copy original training data to this folder
+addpath('./_data/h2ax_tissue/')     % copy original training data to this folder
 addpath('./_supportingFunctions/')
 
 pram_init; % set paramters here

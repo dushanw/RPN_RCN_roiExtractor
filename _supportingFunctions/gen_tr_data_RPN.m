@@ -2,18 +2,18 @@
 
 function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN(pram)
 
-  Nx = pram.Nx; 
+  Nx            = pram.Nx; 
   
-  In_imds_dir = fullfile('./_data0/','Imds');
-  Out_imds_dir = fullfile('./_data0/','Pxds');
+  In_imds_dir   = fullfile(pram.TrDataDir,'Imds');
+  Out_imds_dir  = fullfile(pram.TrDataDir,'Pxds');
 
-  In_imds  = imageDatastore(In_imds_dir,'ReadFcn',@readRescale5k);
-  L_imds = imageDatastore(Out_imds_dir);
+  In_imds       = imageDatastore(In_imds_dir,'ReadFcn',@readRescale5k);
+  L_imds        = imageDatastore(Out_imds_dir);
 
-  I = In_imds.readall;
-  L = L_imds.readall;
+  I             = In_imds.readall;
+  L             = L_imds.readall;
 
-  th = 10000;% Jenny annotated wiht black dots on the white image (16bit)
+  th            = 10000;% Jenny annotated wiht black dots on the white image (16bit)
 
   k = 0;
   for i=1:length(I) 
