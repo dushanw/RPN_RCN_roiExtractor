@@ -22,7 +22,7 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN(pram)
       I_now = I{i};
       L_now = L_now<th;
 
-      [L_fg I_now A L_now] = segmentTissueOtsu(I_now,L_now,Nx);
+      [L_fg I_now A L_now] = segmentTissueOtsu(I_now,L_now,Nx);% segments the tissue foreground 
 
       stats = regionprops(L_now,'Centroid');
       centroids_fg = vertcat(stats(:).Centroid);

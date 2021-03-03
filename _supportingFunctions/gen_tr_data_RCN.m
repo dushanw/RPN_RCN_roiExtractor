@@ -19,7 +19,7 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RCN(net_RPN,pram)
 
   for i=1:length(I_all)
       i
-      [L_fg, I_now, A, L_now] = segmentTissueOtsu(I_all{i},L_all{i},Nx);
+      [L_fg, I_now, A, L_now]   = segmentTissueOtsu(I_all{i},L_all{i},Nx);
 
       L_proposal                = apply_proposal_net(net_RPN,I_now,Nx);
       L_proposal(find(L_fg==0)) = 0;

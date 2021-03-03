@@ -1,13 +1,4 @@
 
-
-
-
-
-
-
-
-
-
 function [I_scaled intensity_tissue] = normalize_tissue_to_1(I)
 
     intensity_range = linspace(0,max(I(:)),500);

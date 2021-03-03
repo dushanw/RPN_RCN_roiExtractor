@@ -3,7 +3,8 @@
 
 % datapaths
 function pram = pram_init()
-  pram.TrDataDir          = './_data/h2ax_tissue/';
+  pram.TrDataDir          = './_data/h2ax_tissue/';    
+  pram.UseDataDir         = './_data/h2ax_tissue_use/';
 
   % network paramters
   pram.Nx                 = 64;
