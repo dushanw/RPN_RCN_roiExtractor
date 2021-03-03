@@ -17,7 +17,7 @@
 addpath('./_data/h2ax_tissue/')     % copy original training data to this folder
 addpath('./_supportingFunctions/')
 
-pram_init; % set paramters here
+pram                    = pram_init; % set paramters here
 
 %% train RPN
 lgraph_rpn              = gen_RPN(pram);
