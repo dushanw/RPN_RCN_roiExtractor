@@ -41,7 +41,7 @@ function use_pipeline(net_rpn,net_rcn,pram)
   end
   
   results_table = table(Filename,Count,Area_tissue);
-  writetable(results_table,['./results/run_' date '.xls']);
+  writetable(results_table,['./results/' date 'run_' date '.xls']);
   
 end
 
