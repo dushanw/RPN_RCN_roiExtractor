@@ -3,9 +3,10 @@
 
 addpath('./_supportingFunctions/')
 
-pram                    = pram_init(); % set paramters here
+pram = pram_init(); % set paramters here
 
 %% use network
 load ./__trainedNetworks/rpn_64_02-Mar-2021.mat
 load ./__trainedNetworks/rcn_64_02-Mar-2021.mat
 use_pipeline(net_rpn,net_rcn,pram)
+

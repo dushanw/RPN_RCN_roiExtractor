@@ -15,7 +15,9 @@
 %     3. Run RCN
 
 % addpath('./_data/h2ax_tissue/')     % copy original training data to this folder
+
 addpath('./_supportingFunctions/')
+mkdir('./__trainedNetworks/')
 
 pram                    = pram_init(); % set paramters here
 
