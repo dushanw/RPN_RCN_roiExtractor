@@ -23,7 +23,7 @@ function use_pipeline(net_rpn,net_rcn,pram)
 
       L_proposal = apply_proposal_net(net_rpn,I_now,Nx);
       L_proposal(find(L_fg==0))=0;
-      [I_proposals_now centroids Y_gt_now] = genRegionProposals(L_proposal>th_prop,L_now<th_gt,I_now,Nx);
+      [I_proposals_now centroids Y_gt_now] = genRegionProposals(L_proposal>th_prop,[],I_now,Nx);
 
       [YPred,scores] = classify(net_rcn,I_proposals_now);
 
