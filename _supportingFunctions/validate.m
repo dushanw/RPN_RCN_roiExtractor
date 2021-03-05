@@ -19,8 +19,6 @@ function validate(net_rpn,net_rcn,pram)
 
       temp = find(fileinfo.Filename=='/');temp=temp(end);
       fileNameStem = fileinfo.Filename(temp+1:end-4);
-
-      [L_fg I_now Area_tissue_now L_now] = segmentTissueOtsu(I_now,L_now,Nx);
             
       if pram.runTissueSeg == 1      
         [L_fg I_now Area_tissue_now L_now] = segmentTissueOtsu(I_now,L_now,Nx);% segments the tissue foreground 
