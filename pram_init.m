@@ -3,9 +3,11 @@
 
 % datapaths
 function pram = pram_init()
-  pram.TrDataDir          = './_data/h2ax_tissue/';    
+  pram.TrDataDir          = './_data/h2ax_wadduwage2018automated_fig4/';    
   pram.UseDataDir         = './_data/h2ax_tissue_use/';
 
+  % tissue segmentation
+  pram.runTissueSeg       = 0;
   % network paramters
   pram.Nx                 = 64;
   pram.ValDataRatio       = 0.05; % ratio of training data used for validation

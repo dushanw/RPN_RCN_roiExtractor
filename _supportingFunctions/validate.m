@@ -7,10 +7,9 @@ function validate(net_rpn,net_rcn,pram)
   In_imds_dir   = fullfile(pram.TrDataDir,'Imds_val');
   Out_imds_dir  = fullfile(pram.TrDataDir,'Pxds_val');
   In_imds       = imageDatastore(In_imds_dir,'ReadFcn',@readRescale5k);
-  Out_imds      = imageDatastore(Out_imds_dir);
+  Out_imds      = imageDatastore(Out_imds_dir,'ReadFcn',@readAnnotation);
     
   th_prop       = pram.th_prop; % This is not good. We should try to make the propsal net work better
-  th_gt         = pram.th_gt;% jenny's annotation are dark dots on bright bg on 16bit image
   I_proposals   = [];
 
   for i=1:size(In_imds.Files,1)
@@ -25,7 +24,7 @@ function validate(net_rpn,net_rcn,pram)
 
       L_proposal = apply_proposal_net(net_rpn,I_now,Nx);
       L_proposal(find(L_fg==0))=0;
-      [I_proposals_now centroids Y_gt_now] = genRegionProposals(L_proposal>th_prop,L_now<th_gt,I_now,Nx);
+      [I_proposals_now centroids Y_gt_now] = genRegionProposals(L_proposal>th_prop,L_now,I_now,Nx);
 
       [YPred,scores] = classify(net_rcn,I_proposals_now);
 

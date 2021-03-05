@@ -7,13 +7,13 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RCN(net_RPN,pram)
   Out_imds_dir  = fullfile(pram.TrDataDir,'Pxds');
 
   In_imds       = imageDatastore(In_imds_dir,'ReadFcn',@readRescale5k);
-  L_imds        = imageDatastore(Out_imds_dir);
+  L_imds        = imageDatastore(Out_imds_dir,'ReadFcn',@readAnnotation);
 
   I_all         = In_imds.readall;
   L_all         = L_imds.readall;
 
   th_prop       = pram.th_prop;
-  th_gt         = pram.th_gt;% jenny's annotation are dark dots on bright bg on 16bit image
+
   I_proposals   = [];
   Y_gt          = [];
 
@@ -23,7 +23,7 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RCN(net_RPN,pram)
 
       L_proposal                = apply_proposal_net(net_RPN,I_now,Nx);
       L_proposal(find(L_fg==0)) = 0;
-      [I_proposals_now, Centroids{i}, Y_gt_now] = genRegionProposals(L_proposal>th_prop,L_now<th_gt,I_now,Nx);
+      [I_proposals_now, Centroids{i}, Y_gt_now] = genRegionProposals(L_proposal>th_prop,L_now,I_now,Nx);
 
       I_proposals               = cat(4,I_proposals,I_proposals_now);
       Y_gt                      = cat(1,Y_gt,Y_gt_now); 

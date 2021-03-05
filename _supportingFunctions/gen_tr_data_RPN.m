@@ -8,22 +8,31 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN(pram)
   Out_imds_dir  = fullfile(pram.TrDataDir,'Pxds');
 
   In_imds       = imageDatastore(In_imds_dir,'ReadFcn',@readRescale5k);
-  L_imds        = imageDatastore(Out_imds_dir);
+  L_imds        = imageDatastore(Out_imds_dir,'ReadFcn',@readAnnotation);
 
   I             = In_imds.readall;
   L             = L_imds.readall;
 
-  th            = 10000;% Jenny annotated wiht black dots on the white image (16bit)
+  % th            = 10000;% Jenny annotated wiht black dots on the white image (16bit)
 
   k = 0;
   for i=1:length(I) 
       i
       L_now = L{i};
       I_now = I{i};
-      L_now = L_now<th;
 
-      [L_fg I_now A L_now] = segmentTissueOtsu(I_now,L_now,Nx);% segments the tissue foreground 
+      if pram.runTissueSeg == 1      
+        [L_fg I_now A L_now] = segmentTissueOtsu(I_now,L_now,Nx);% segments the tissue foreground 
+      else
+        I_now = normalize_tissue_to_1(I_now);
+        L_fg  = ones(size(L_now))>0;
+        L_fg  = padarray(L_fg,[Nx Nx]);
+        L_now = padarray(L_now,[Nx Nx]);
+        I_now = padarray(I_now,[Nx Nx]);
+        A     = -1;
+      end
 
+      
       stats = regionprops(L_now,'Centroid');
       centroids_fg = vertcat(stats(:).Centroid);
       N_fg = size(centroids_fg,1);

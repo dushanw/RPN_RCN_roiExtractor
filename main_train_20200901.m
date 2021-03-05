@@ -16,6 +16,8 @@
 
 % addpath('./_data/h2ax_tissue/')     % copy original training data to this folder
 
+clear all;clc;
+
 addpath('./_supportingFunctions/')
 mkdir('./__trainedNetworks/')
 
