@@ -27,7 +27,7 @@ pram                    = pram_init(); % set paramters here
 lgraph_rpn              = gen_RPN(pram);
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RPN(pram);
 
-pram.maxEpochs          = 12;
+pram.maxEpochs          = 30;
 pram.dropPeriod         = round(pram.maxEpochs/4);
 options                 = set_training_options(pram,XVal,YVal);
 

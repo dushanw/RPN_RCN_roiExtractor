@@ -57,6 +57,7 @@ function validate(net_rpn,net_rcn,pram)
       TPs(i,1)          = size(centroids_tp,1);
       FPs(i,1)          = size(centroids_fp,1);
       FNs(i,1)          = size(centroids_fn,1) + size(centroids_fn_rpn,1);
+      FNs_rpn(i,1)      = size(centroids_fn_rpn,1);
       
       Counts(i,1)       = TPs(i,1) + FPs(i,1);
       Counts_gt(i,1)    = TPs(i,1) + FNs(i,1);
@@ -68,8 +69,8 @@ function validate(net_rpn,net_rcn,pram)
   results_table         = table(Filename,...
                                 Counts,Counts_gt,Area_tissue,...
                                 Accuracy,Precision,Recall,...
-                                TPs,FPs,FNs);
-  writetable(results_table,['./results/' date 'run_' date '.xls']);
+                                TPs,FPs,FNs,FNs_rpn);
+  writetable(results_table,['./results/' date '/run_' date '.xls']);
 
 end
 
