@@ -54,15 +54,15 @@ function validate(net_rpn,net_rcn,pram)
       Filename{i,1}     = fileinfo.Filename(temp+1:end);
       Area_tissue(i,1)  = Area_tissue_now;
       
-      TPs               = size(centroids_tp,1);
-      FPs               = size(centroids_fp,1);
-      FNs               = size(centroids_fn,1) + size(centroids_fn_rpn,1);
+      TPs(i,1)          = size(centroids_tp,1);
+      FPs(i,1)          = size(centroids_fp,1);
+      FNs(i,1)          = size(centroids_fn,1) + size(centroids_fn_rpn,1);
       
-      Counts(i,1)       = TPs + FPs;
-      Counts_gt(i,1)    = TPs + FNs;
-      Accuracy(i,1)     = TPs/(TPs+FPs+FNs);
-      Precision(i,1)    = TPs/(TPs+FPs    );
-      Recall(i,1)       = TPs/(TPs    +FNs);
+      Counts(i,1)       = TPs(i,1) + FPs(i,1);
+      Counts_gt(i,1)    = TPs(i,1) + FNs(i,1);
+      Accuracy(i,1)     = TPs(i,1)/(TPs(i,1)+FPs(i,1)+FNs(i,1));
+      Precision(i,1)    = TPs(i,1)/(TPs(i,1)+FPs(i,1)         );
+      Recall(i,1)       = TPs(i,1)/(TPs(i,1)         +FNs(i,1));
 
   end
   results_table         = table(Filename,...
