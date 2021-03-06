@@ -33,7 +33,8 @@ function validate(net_rpn,net_rcn,pram)
       
       L_proposal = apply_proposal_net(net_rpn,I_now,Nx);
       L_proposal(find(L_fg==0))=0;
-      [I_proposals_now centroids Y_gt_now] = genRegionProposals(L_proposal>th_prop,L_now,I_now,Nx);
+      
+      [I_proposals_now centroids Y_gt_now centroids_fn_rpn] = genRegionProposals(L_proposal>th_prop,L_now,I_now,Nx);
 
       [YPred,scores] = classify(net_rcn,I_proposals_now);
 
@@ -45,9 +46,10 @@ function validate(net_rpn,net_rcn,pram)
       centroids_fp    = centroids(find(YPred=='1' & Y_gt_now==0),:);
       centroids_fn    = centroids(find(YPred=='0' & Y_gt_now==1),:);
       h = imagesc(I_now,[0 2.5]);hold on
-      plot(centroids_tp(:,1),centroids_tp(:,2),'+g','MarkerSize',10,'LineWidth',1);    
-      plot(centroids_fp(:,1),centroids_fp(:,2),'+r','MarkerSize',10,'LineWidth',1);    
-      plot(centroids_fn(:,1),centroids_fn(:,2),'+b','MarkerSize',10,'LineWidth',1);    
+      plot(centroids_tp(:,1)    ,centroids_tp(:,2)    ,'+g','MarkerSize',10,'LineWidth',1);    
+      plot(centroids_fp(:,1)    ,centroids_fp(:,2)    ,'+r','MarkerSize',10,'LineWidth',1);    
+      plot(centroids_fn(:,1)    ,centroids_fn(:,2)    ,'+b','MarkerSize',10,'LineWidth',1);    
+      plot(centroids_fn_rpn(:,1),centroids_fn_rpn(:,2),'+m','MarkerSize',10,'LineWidth',1);    
       hold off
       truesize
       saveas(h,['./results/' date '/figs/' fileNameStem '_fig.jpeg']);   
