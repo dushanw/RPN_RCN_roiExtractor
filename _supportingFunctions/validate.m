@@ -41,14 +41,6 @@ function validate(net_rpn,net_rcn,pram)
       centroids_tp      = centroids(find(YPred=='1' & Y_gt_now==1),:);
       centroids_fp      = centroids(find(YPred=='1' & Y_gt_now==0),:);
       centroids_fn      = centroids(find(YPred=='0' & Y_gt_now==1),:);
-      h = imagesc(I_now,[0 2.5]);hold on
-      plot(centroids_tp(:,1)    ,centroids_tp(:,2)    ,'+g','MarkerSize',10,'LineWidth',1);    
-      plot(centroids_fp(:,1)    ,centroids_fp(:,2)    ,'+r','MarkerSize',10,'LineWidth',1);    
-      plot(centroids_fn(:,1)    ,centroids_fn(:,2)    ,'+b','MarkerSize',10,'LineWidth',1);    
-      plot(centroids_fn_rpn(:,1),centroids_fn_rpn(:,2),'+m','MarkerSize',10,'LineWidth',1);    
-      hold off
-      truesize
-      saveas(h,['./results/' date '/figs/' fileNameStem '_fig.jpeg']);   
       
       % counting restuls      
       Filename{i,1}     = fileinfo.Filename(temp+1:end);
@@ -64,7 +56,22 @@ function validate(net_rpn,net_rcn,pram)
       Accuracy(i,1)     = TPs(i,1)/(TPs(i,1)+FPs(i,1)+FNs(i,1));
       Precision(i,1)    = TPs(i,1)/(TPs(i,1)+FPs(i,1)         );
       Recall(i,1)       = TPs(i,1)/(TPs(i,1)         +FNs(i,1));
-
+      
+      % plot on the image
+      centroids_fn_rpn = cat(1,centroids_fn_rpn,[1 1]);% to avoid trying to plot empty array
+      centroids_tp     = cat(1,centroids_tp    ,[1 1]);
+      centroids_fp     = cat(1,centroids_fp    ,[1 1]);
+      centroids_fn     = cat(1,centroids_fn    ,[1 1]);
+      
+      h = imagesc(I_now,[0 2.5]);hold on
+      plot(centroids_tp(:,1)    ,centroids_tp(:,2)    ,'+g','MarkerSize',10,'LineWidth',1);    
+      plot(centroids_fp(:,1)    ,centroids_fp(:,2)    ,'+r','MarkerSize',10,'LineWidth',1);    
+      plot(centroids_fn(:,1)    ,centroids_fn(:,2)    ,'+b','MarkerSize',10,'LineWidth',1);    
+      plot(centroids_fn_rpn(:,1),centroids_fn_rpn(:,2),'+m','MarkerSize',10,'LineWidth',1);    
+      hold off
+      truesize
+      saveas(h,['./results/' date '/figs/' fileNameStem '_fig.jpeg']);   
+      
   end
   results_table         = table(Filename,...
                                 Counts,Counts_gt,Area_tissue,...
