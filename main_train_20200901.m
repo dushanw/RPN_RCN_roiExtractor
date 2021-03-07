@@ -38,7 +38,7 @@ save(['./__trainedNetworks/rpn' sprintf('_%d_%s.mat',pram.Nx,date)],'net_rpn');
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RCN(net_rpn,pram);
 lgraph_rcn              = gen_RCN(net_rpn);
 
-pram.maxEpochs          = 40;% for sr paper fig 4 data 100 epochs work well, more than than over fits
+pram.maxEpochs          = 80;% for sr paper fig 4 data 100 epochs work well, more than than over fits
 pram.initLearningRate   = 0.1;
 pram.dropPeriod         = round(pram.maxEpochs/2);
 options                 = set_training_options(pram,XVal,YVal);
