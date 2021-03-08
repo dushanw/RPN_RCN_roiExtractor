@@ -7,7 +7,7 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
   th_prop       = pram.th_prop; % This is not good. We should try to make the propsal net work better
   I_proposals   = [];
 
-  for i=1:size(In_imds.Files,1)
+  for i=1:length(Itest)
       i
       I_now             = Itest{i};
       L_now             = Ltest{i};     
