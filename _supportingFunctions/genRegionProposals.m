@@ -21,6 +21,7 @@ function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_
         Y_gt    = [];
     end
        
+    I_proposals = [];
     for k=1:length(stats)
         c = round(stats(k,1).Centroid(1));          
         r = round(stats(k,1).Centroid(2));
