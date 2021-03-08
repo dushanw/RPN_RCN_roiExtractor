@@ -8,6 +8,11 @@ function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_
     L = bwmorph(L,'close');
     L = bwmorph(L,'open');
     
+    I_proposals           = [];
+    Centroids             = [];
+    Y_gt                  = [];
+    centroids_fn_rpn      = [];
+    
     if ~isempty(L_gt)
         L_added           = single(L)+single(L_gt)*2;
         stats             = regionprops(L_added>0,L_added,'Area','Centroid','MaxIntensity');
@@ -20,8 +25,7 @@ function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_
         stats   = regionprops(L,'Area','Centroid');
         Y_gt    = [];
     end
-       
-    I_proposals = [];
+           
     for k=1:length(stats)
         c = round(stats(k,1).Centroid(1));          
         r = round(stats(k,1).Centroid(2));
