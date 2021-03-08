@@ -39,11 +39,11 @@ function [I L] = readData(pram)
   
   I.tr    = subf_normalize_tissue_to_1(I.tr);
   I.test  = subf_normalize_tissue_to_1(I.test);
-      
+  L.tr    = subf_imdilateLabels(L.tr);
+  L.test  = subf_imdilateLabels(L.test);  
 end
 
-
-
+% preproceessing functions
 function I = subf_normalize_tissue_to_1(I)
 
   for i = 1:length(I)
@@ -59,3 +59,18 @@ function I = subf_normalize_tissue_to_1(I)
   end
   
 end
+
+function L = subf_imdilateLabels(L)
+  SE = strel('disk',2);
+  for i = 1:length(L)
+    L{i} = imdilate(L{i},SE);
+  end
+  
+end
+
+
+
+
+
+
+
