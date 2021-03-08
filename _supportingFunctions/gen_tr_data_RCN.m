@@ -14,10 +14,10 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RCN(I_all,L_all,net_RPN,pram)
       if pram.runTissueSeg == 1      
         [L_fg I_now Area_tissue_now L_now] = segmentTissueOtsu(I_all{i},L_all{i},Nx);% segments the tissue foreground 
       else        
+        I_now           = padarray(I_all{i},[Nx Nx]);
         L_fg            = ones(size(L_all{i}))>0;
         L_fg            = padarray(L_fg,[Nx Nx]);
-        L_now           = padarray(L_all{i},[Nx Nx]);
-        I_now           = padarray(I_now,[Nx Nx]);
+        L_now           = padarray(L_all{i},[Nx Nx]);        
         Area_tissue_now = -1;
       end
       
