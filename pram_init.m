@@ -15,7 +15,7 @@ function pram = pram_init()
   pram.TestDataRatio      = 0.35;
 
   % hyper-parameter of the rule-based algorithm
-  pram.th_prop            = 0.99;
+  pram.th_prop            = 0.5;
   pram.th_gt              = 20000;% jenny's annotation are dark dots on bright bg on 16bit image
 
   % training parameters 

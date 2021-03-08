@@ -4,9 +4,16 @@
 
 function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_gt,I0,Nx)
     
-    L = bwmorph(L,'clean');
-    L = bwmorph(L,'close');
-    L = bwmorph(L,'open');
+   L = bwmorph(L,'clean');
+   L = bwmorph(L,'close');
+   if Nx>32 % this is bad practice. See if tissue level works without opening.
+     L = bwmorph(L,'open');
+   end
+    
+%     SE = 1;
+%     L1 = imopen(L,SE);
+%     L2 = imclose(L,SE);
+    
     
     I_proposals           = [];
     Centroids             = [];
