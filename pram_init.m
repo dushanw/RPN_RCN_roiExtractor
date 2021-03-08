@@ -3,14 +3,16 @@
 
 % datapaths
 function pram = pram_init()
-  pram.TrDataDir          = './_data/h2ax_wadduwage2018automated_fig4/';    
-  pram.UseDataDir         = './_data/h2ax_tissue_use/';
+  pram.experimentType     = 'h2ax_cells';  
+  pram.TrDataDir          = './_data/h2ax_wadduwage2018automated_fig4/';
+  pram.UseDataDir         = './_data/h2ax_wadduwage2018automated_fig4/';
 
   % tissue segmentation
   pram.runTissueSeg       = 0;
   % network paramters
   pram.Nx                 = 64;
   pram.ValDataRatio       = 0.05; % ratio of training data used for validation
+  pram.TestDataRatio      = 0.35;
 
   % hyper-parameter of the rule-based algorithm
   pram.th_prop            = 0.99;

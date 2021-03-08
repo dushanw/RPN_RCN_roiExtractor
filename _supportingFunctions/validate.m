@@ -1,24 +1,17 @@
 
-function validate(net_rpn,net_rcn,pram)
+function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
 
   Nx            = pram.Nx;
   mkdir(['./results/' date '/figs/']);
-  
-  In_imds_dir   = fullfile(pram.TrDataDir,'Imds_val');
-  Out_imds_dir  = fullfile(pram.TrDataDir,'Pxds_val');
-  In_imds       = imageDatastore(In_imds_dir,'ReadFcn',@readRescale5k);
-  Out_imds      = imageDatastore(Out_imds_dir,'ReadFcn',@readAnnotation);
-    
+      
   th_prop       = pram.th_prop; % This is not good. We should try to make the propsal net work better
   I_proposals   = [];
 
   for i=1:size(In_imds.Files,1)
       i
-      [I_now,fileinfo]  = readimage(In_imds,i);
-      L_now             = readimage(Out_imds,i);
-
-      temp              = find(fileinfo.Filename=='/');temp=temp(end);
-      fileNameStem      = fileinfo.Filename(temp+1:end-4);
+      I_now             = Itest{i};
+      L_now             = Ltest{i};     
+      fileNameStem      = nameStem_test{i};
             
       if pram.runTissueSeg == 1      
         [L_fg I_now Area_tissue_now L_now] = segmentTissueOtsu(I_now,L_now,Nx);% segments the tissue foreground 

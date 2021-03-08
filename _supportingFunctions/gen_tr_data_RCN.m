@@ -1,16 +1,7 @@
 
-function [XTr, YTr, XVal, YVal] = gen_tr_data_RCN(net_RPN,pram)
+function [XTr, YTr, XVal, YVal] = gen_tr_data_RCN(I_all,L_all,net_RPN,pram)
 
   Nx            = pram.Nx;
-
-  In_imds_dir   = fullfile(pram.TrDataDir,'Imds');
-  Out_imds_dir  = fullfile(pram.TrDataDir,'Pxds');
-
-  In_imds       = imageDatastore(In_imds_dir,'ReadFcn',@readRescale5k);
-  L_imds        = imageDatastore(Out_imds_dir,'ReadFcn',@readAnnotation);
-
-  I_all         = In_imds.readall;
-  L_all         = L_imds.readall;
 
   th_prop       = pram.th_prop;
 

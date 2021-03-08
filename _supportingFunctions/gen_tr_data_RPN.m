@@ -1,22 +1,10 @@
 
 
-function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN(pram)
+function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN(I,L,pram)
 
-  Nx            = pram.Nx; 
-  
-  In_imds_dir   = fullfile(pram.TrDataDir,'Imds');
-  Out_imds_dir  = fullfile(pram.TrDataDir,'Pxds');
-
-  In_imds       = imageDatastore(In_imds_dir,'ReadFcn',@readRescale5k);
-  L_imds        = imageDatastore(Out_imds_dir,'ReadFcn',@readAnnotation);
-
-  I             = In_imds.readall;
-  L             = L_imds.readall;
-
-  % th            = 10000;% Jenny annotated wiht black dots on the white image (16bit)
-
-  k = 0;
-  for i=1:length(I) 
+  Nx  = pram.Nx; 
+  k   = 0;
+  for i=1:length(I)
       i
       L_now = L{i};
       I_now = I{i};
@@ -32,7 +20,6 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN(pram)
         A     = -1;
       end
 
-      
       stats = regionprops(L_now,'Centroid');
       centroids_fg = vertcat(stats(:).Centroid);
       N_fg = size(centroids_fg,1);

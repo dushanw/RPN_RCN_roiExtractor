@@ -24,8 +24,11 @@ mkdir('./__trainedNetworks/')
 pram                    = pram_init(); % set paramters here
 
 %% train RPN
+of                      = cd(pram.TrDataDir); 
+[I L]                   = readData(pram); cd(of)    % I.tr, I.test, L.tr, L.test
+[XTr, YTr, XVal, YVal]  = gen_tr_data_RPN(I.tr,L.tr,pram);
+
 lgraph_rpn              = gen_RPN(pram);
-[XTr, YTr, XVal, YVal]  = gen_tr_data_RPN(pram);
 
 pram.maxEpochs          = 60;
 pram.dropPeriod         = round(pram.maxEpochs/4);
@@ -35,7 +38,7 @@ net_rpn                 = trainNetwork(XTr,YTr,lgraph_rpn,options);
 save(['./__trainedNetworks/rpn' sprintf('_%d_%s.mat',pram.Nx,date)],'net_rpn');
 
 %% train RCN
-[XTr, YTr, XVal, YVal]  = gen_tr_data_RCN(net_rpn,pram);
+[XTr, YTr, XVal, YVal]  = gen_tr_data_RCN(I.tr,L.tr,net_rpn,pram);
 lgraph_rcn              = gen_RCN(net_rpn);
 
 pram.maxEpochs          = 80;% for sr paper fig 4 data 100 epochs work well, more than than over fits
@@ -48,10 +51,6 @@ save(['./__trainedNetworks/rcn' sprintf('_%d_%s.mat',pram.Nx,date)],'net_rcn');
 
 %% validate networks
 validate(net_rpn,net_rcn,pram)
-
-
-
-
 
 
 
