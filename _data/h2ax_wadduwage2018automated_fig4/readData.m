@@ -22,7 +22,7 @@ function [I L] = readData(pram)
   % make file name stems for saving results
   for i = 1:length(In_imds.Files)
     temp                = find(In_imds.Files{i}=='/');temp=temp(end);  
-    I.test_nameStem{i}  = fileinfo.Filename(temp+1:end-4);
+    I.test_nameStem{i}  = In_imds.Files{i}(temp+1:end-4);
   end
  
 end
