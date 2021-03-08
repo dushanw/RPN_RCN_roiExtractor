@@ -36,7 +36,7 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       centroids_fn      = centroids(find(YPred=='0' & Y_gt_now==1),:);
       
       % counting restuls      
-      Filename{i,1}     = fileinfo.Filename(temp+1:end);
+      Filename{i,1}     = fileNameStem;
       Area_tissue(i,1)  = Area_tissue_now;
       
       TPs(i,1)          = size(centroids_tp,1);
