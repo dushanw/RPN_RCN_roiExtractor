@@ -22,11 +22,14 @@ addpath('./_supportingFunctions/')
 mkdir('./__trainedNetworks/')
 
 pram                    = pram_init(); % set paramters here
-
+pram.Nx                 = 16;
 %% train RPN
 of                      = cd(pram.TrDataDir); 
 [I L]                   = readData(pram); cd(of)    % I.tr, I.test, L.tr, L.test
+% imagesc(imtile(I.tr{randi(length(I.tr))}));axis image;colorbar
+
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RPN(I.tr,L.tr,pram);
+% imagesc(imtile(XVal(:,:,:,randi(size(XVal,4),1,100))));axis image;colorbar
 
 lgraph_rpn              = gen_RPN(pram);
 

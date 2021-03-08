@@ -1,8 +1,7 @@
 
 function [BW I A BW_foci] = segmentTissueOtsu(I0,BW_foci,Nx)
         
- imresize_factor = 0.1;   
- [I0 scaleFactor] = normalize_tissue_to_1(I0);
+ imresize_factor = 0.1;    
  I = imresize(I0,imresize_factor);% resize by 1/10 times to process easily
 
  I(find(I(:)>2))=2;   

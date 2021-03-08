@@ -16,7 +16,6 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       if pram.runTissueSeg == 1      
         [L_fg I_now Area_tissue_now L_now] = segmentTissueOtsu(I_now,L_now,Nx);% segments the tissue foreground 
       else
-        I_now           = normalize_tissue_to_1(I_now);
         L_fg            = ones(size(L_now))>0;
         L_fg            = padarray(L_fg,[Nx Nx]);
         L_now           = padarray(L_now,[Nx Nx]);

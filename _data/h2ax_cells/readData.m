@@ -15,6 +15,7 @@ function [I L] = readData(pram)
   L.tr    = [];
   I.test  = [];
   L.test  = [];
+  t       = 1;
   for i = 1:length(expNames)
     load(['./' expNames{i} '/I_cell.mat'])
     load(['./' expNames{i} '/L_h2ax.mat'])
@@ -30,6 +31,31 @@ function [I L] = readData(pram)
     
     L.tr      = [L.tr   {L_h2ax{rand_inds(tr_inds  )}}];
     L.test    = [L.test {L_h2ax{rand_inds(test_inds)}}];   
+    for j=1:length(test_inds)
+      I.test_nameStem{t}  = [expNames{i} '_' sprintf('%d',j)];
+      t                   = t + 1;
+    end
   end
+  
+  I.tr    = subf_normalize_tissue_to_1(I.tr);
+  I.test  = subf_normalize_tissue_to_1(I.test);
+      
+end
 
+
+
+function I = subf_normalize_tissue_to_1(I)
+
+  for i = 1:length(I)
+    I{i}            = single(I{i});
+    I_nuc           = I{i}(:,:,1);
+    intensity_range = linspace(0,max(I_nuc(:)),40);
+    hist_I          = hist(I_nuc(:),intensity_range);
+
+    [pks locs]      = findpeaks(hist_I);
+    intensity_cell  = intensity_range(locs(end));% last peak is the cell background
+
+    I{i}             = I{i}(:,:,2)/intensity_cell;% select the foci channel
+  end
+  
 end

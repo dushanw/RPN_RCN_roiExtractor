@@ -4,8 +4,8 @@
 % datapaths
 function pram = pram_init()
   pram.experimentType     = 'h2ax_cells';  
-  pram.TrDataDir          = './_data/h2ax_wadduwage2018automated_fig4/';
-  pram.UseDataDir         = './_data/h2ax_wadduwage2018automated_fig4/';
+  pram.TrDataDir          = './_data/h2ax_cells/';
+  pram.UseDataDir         = './_data/h2ax_cells/';
 
   % tissue segmentation
   pram.runTissueSeg       = 0;
