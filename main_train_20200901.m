@@ -22,7 +22,9 @@ addpath('./_supportingFunctions/')
 mkdir('./__trainedNetworks/')
 
 pram                    = pram_init(); % set paramters here
-pram.Nx                 = 16;
+%pram.Nx                = 16;          % 16 is too small even for the h2ax-cell foci 
+pram.Nx                 = 32;          % 32 works well for h2ax-cell foci at RPN stage 
+
 %% train RPN
 of                      = cd(pram.TrDataDir); 
 [I L]                   = readData(pram); cd(of)    % I.tr, I.test, L.tr, L.test
@@ -33,7 +35,8 @@ of                      = cd(pram.TrDataDir);
 
 lgraph_rpn              = gen_RPN(pram);
 
-pram.maxEpochs          = 60;
+% pram.maxEpochs          = 60;
+pram.maxEpochs          = 30;                       % 30 seeems enough for Nx32 with h2ax-cells
 pram.dropPeriod         = round(pram.maxEpochs/4);
 options                 = set_training_options(pram,XVal,YVal);
 
