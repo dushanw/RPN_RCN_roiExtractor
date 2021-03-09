@@ -60,19 +60,22 @@ function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_
   end
 
   % remove proposals close to the boundary (from more than Nx/2)
-  idx_valid  = (Centroids(:,1) >= Nx/2+1) & ...
-               (Centroids(:,2) >= Nx/2+1) & ...
-               (Centroids(:,1) <= size(I0,1) - Nx/2 +1) & ...
-               (Centroids(:,2) <= size(I0,2) - Nx/2 +1);
-  Centroids  = Centroids(idx_valid,:);
-  Y_gt       = Y_gt(idx_valid);
-             
-  for k=1:size(Centroids,1)
-    c = round(Centroids(k,1));          
-    r = round(Centroids(k,2));
+  if ~isempty(Centroids)
+    idx_valid  = (Centroids(:,1) >= Nx/2+1) & ...
+                 (Centroids(:,2) >= Nx/2+1) & ...
+                 (Centroids(:,1) <= size(I0,1) - Nx/2 +1) & ...
+                 (Centroids(:,2) <= size(I0,2) - Nx/2 +1);
+    Centroids  = Centroids(idx_valid,:);
+    Y_gt       = Y_gt(idx_valid);
 
-    I_proposals(:,:,1,k) = I0(r-Nx/2:r+Nx/2-1,c-Nx/2:c+Nx/2-1);
+    for k=1:size(Centroids,1)
+      c = round(Centroids(k,1));          
+      r = round(Centroids(k,2));
+
+      I_proposals(:,:,1,k) = I0(r-Nx/2:r+Nx/2-1,c-Nx/2:c+Nx/2-1);
+    end
   end
+  
 end
 
     
