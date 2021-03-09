@@ -10,36 +10,49 @@ function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_
      L = bwmorph(L,'open');
    else                       % seems like it doesnt work without the opening
      SE = strel('disk',1,8);
-     L  = imopen(L,SE);
+     L  = imopen(L,SE);       % similar style: L = imclose(L,SE)
    end
-    
-%     
-%     L2 = imclose(L,SE);
-%     L1 = imopen(L,SE);
-
-    
-    
+            
     I_proposals           = [];
     Centroids             = [];
     Y_gt                  = [];
     centroids_fn_rpn      = [];
     
     if ~isempty(L_gt)
-        L_added           = single(L)+single(L_gt)*2;
-        stats             = regionprops(L_added>0,L_added,'Area','Centroid','MaxIntensity');
-        inds_fn_rpn       = find(vertcat(stats.MaxIntensity)==2);
-        centroids_fn_rpn  = vertcat(stats(inds_fn_rpn).Centroid);
+        %% region overlap method      
+%         L_added           = single(L)+single(L_gt)*2;
+%         stats             = regionprops(L_added>0,L_added,'Area','Centroid','MaxIntensity');
+%         inds_fn_rpn       = find(vertcat(stats.MaxIntensity)==2);
+%         centroids_fn_rpn  = vertcat(stats(inds_fn_rpn).Centroid);
+%         
+%         stats_proposals   = regionprops(L,L_added,'Area','Centroid','MaxIntensity');
+%
+%         Centroids         = cat(1,stats_proposals.Centroid);
+%         Y_gt              = vertcat(stats.MaxIntensity)==3;
+         
+
+        %% distance method to identify positives
+        stats_proposals   = regionprops(L   ,'Centroid');
+        stats_gt          = regionprops(L_gt,'Centroid');
         
-        stats             = regionprops(L,L_added,'Area','Centroid','MaxIntensity');
-        Y_gt              = vertcat(stats.MaxIntensity)==3;
+        centr_proposals   = cat(1,stats_proposals.Centroid);
+        centr_gt          = cat(1,stats_gt.Centroid);
+        
+        Dist_mat          =  sqrt((centr_proposals(:,1) - centr_gt(:,1)').^2 + ...
+                                  (centr_proposals(:,2) - centr_gt(:,2)').^2);
+        [min_dist gt_ind] = min(Dist_mat,[],2);
+        
+        Centroids         = centr_proposals;
+        Y_gt              = min_dist<5;
     else
-        stats   = regionprops(L,'Area','Centroid');
-        Y_gt    = [];
+        stats_proposals   = regionprops(L,'Area','Centroid');
+        Centroids         = cat(1,stats_proposals.Centroid);
+        Y_gt              = [];
     end
            
     for k=1:length(stats)
-        c = round(stats(k,1).Centroid(1));          
-        r = round(stats(k,1).Centroid(2));
+        c = round(Centroids(1));          
+        r = round(Centroids(2));
         Centroids(k,1)=c;
         Centroids(k,2)=r;
         

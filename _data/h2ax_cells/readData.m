@@ -39,8 +39,8 @@ function [I L] = readData(pram)
   
   I.tr    = subf_normalize_tissue_to_1(I.tr);
   I.test  = subf_normalize_tissue_to_1(I.test);
-  L.tr    = subf_imdilateLabels(L.tr);
-  L.test  = subf_imdilateLabels(L.test);  
+%   L.tr    = subf_imdilateLabels(L.tr);
+%   L.test  = subf_imdilateLabels(L.test);  
 end
 
 % preproceessing functions
