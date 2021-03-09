@@ -38,19 +38,23 @@ function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_
         centr_proposals   = cat(1,stats_proposals.Centroid);
         centr_gt          = cat(1,stats_gt.Centroid);
         
-        Dist_mat          =  sqrt((centr_proposals(:,1) - centr_gt(:,1)').^2 + ...
-                                  (centr_proposals(:,2) - centr_gt(:,2)').^2);
-        [min_dist gt_ind] = min(Dist_mat,[],2);
-        
-        Centroids         = centr_proposals;
-        Y_gt              = min_dist<5;
+        if ~isempty(centr_gt)
+          Dist_mat          =  sqrt((centr_proposals(:,1) - centr_gt(:,1)').^2 + ...
+                                    (centr_proposals(:,2) - centr_gt(:,2)').^2);
+          [min_dist gt_ind] = min(Dist_mat,[],2);        
+          Centroids         = centr_proposals;
+          Y_gt              = min_dist<5;
+        else
+          Centroids         = centr_proposals;
+          Y_gt              = zeros(size(Centroids,1),1);          
+        end
     else
         stats_proposals   = regionprops(L,'Area','Centroid');
         Centroids         = cat(1,stats_proposals.Centroid);
         Y_gt              = [];
     end
            
-    for k=1:length(stats)
+    for k=1:size(Centroids,1)
         c = round(Centroids(1));          
         r = round(Centroids(2));
         Centroids(k,1)=c;
