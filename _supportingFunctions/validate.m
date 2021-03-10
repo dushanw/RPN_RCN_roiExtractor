@@ -28,7 +28,11 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       
       [I_proposals_now centroids Y_gt_now centroids_fn_rpn] = genRegionProposals(L_proposal>th_prop,L_now,I_now,Nx);
 
-      [YPred,scores]    = classify(net_rcn,I_proposals_now);
+      if ~isempty(I_proposals_now)
+        [YPred,scores]  = classify(net_rcn,I_proposals_now);
+      else
+        YPred           = [];
+      end
 
       centroids_tp      = centroids(find(YPred=='1' & Y_gt_now==1),:);
       centroids_fp      = centroids(find(YPred=='1' & Y_gt_now==0),:);
@@ -54,8 +58,8 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       centroids_tp     = cat(1,centroids_tp    ,[1 1]);
       centroids_fp     = cat(1,centroids_fp    ,[1 1]);
       centroids_fn     = cat(1,centroids_fn    ,[1 1]);
-      
-      h = imagesc(I_now,[0 2.5]);hold on
+            
+      h = imagesc(I_now,[0 2.5]);hold on      
       plot(centroids_tp(:,1)    ,centroids_tp(:,2)    ,'+g','MarkerSize',10,'LineWidth',1);    
       plot(centroids_fp(:,1)    ,centroids_fp(:,2)    ,'+r','MarkerSize',10,'LineWidth',1);    
       plot(centroids_fn(:,1)    ,centroids_fn(:,2)    ,'+b','MarkerSize',10,'LineWidth',1);    
