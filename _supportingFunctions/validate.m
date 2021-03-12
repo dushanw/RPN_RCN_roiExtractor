@@ -13,26 +13,53 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       L_now             = Ltest{i};     
       fileNameStem      = nameStem_test{i};
             
-      if pram.runTissueSeg == 1      
-        [L_fg I_now Area_tissue_now L_now] = segmentTissueOtsu(I_now,L_now,Nx);% segments the tissue foreground 
-      else
-        L_fg            = ones(size(L_now))>0;
-        L_fg            = padarray(L_fg,[Nx Nx]);
-        L_now           = padarray(L_now,[Nx Nx]);
-        I_now           = padarray(I_now,[Nx Nx]);
-        Area_tissue_now = -1;
-      end
-      
-      L_proposal        = apply_proposal_net(net_rpn,I_now,Nx);
-      L_proposal(find(L_fg==0))=0;
-      
-      [I_proposals_now centroids Y_gt_now centroids_fn_rpn] = genRegionProposals(L_proposal>th_prop,L_now,I_now,Nx);
+      %% dataset specific preprocessing
+      switch pram.experimentType
+        case 'h2ax_cells'                                
+          Area_tissue_now   = -1;                    
+          L_proposal        = apply_proposal_net(net_rpn,I_now,Nx);                    
+          [I_proposals_now ...
+           centroids ...
+           Y_gt_now ...
+           centroids_fn_rpn]= genRegionProposals(L_proposal>th_prop,L_now,I_now,Nx);         
+          if ~isempty(I_proposals_now)
+            [YPred,scores]  = classify(net_rcn,I_proposals_now);            
+          else
+            YPred           = [];            
+          end
+          % remove the extra boder included in input cell cropping
+          centroids         = centroids(centroids(:,1) > Nx/2 & ...
+                                        centroids(:,2) > Nx/2 & ...                                           
+                                        centroids(:,1) < size(I_now,2) - Nx/2 & ...
+                                        centroids(:,2) < size(I_now,1) - Nx/2, :);
+                   
+        case 'h2ax_tissue'                        
+          if pram.runTissueSeg == 1      
+            [L_fg I_now Area_tissue_now L_now] = segmentTissueOtsu(I_now,L_now,Nx);% segments the tissue foreground 
+          else
+            L_fg            = ones(size(L_now))>0;
+            L_fg            = padarray(L_fg,[Nx Nx]);
+            L_now           = padarray(L_now,[Nx Nx]);
+            I_now           = padarray(I_now,[Nx Nx]);
+            Area_tissue_now = -1;
+          end                    
+          L_proposal        = apply_proposal_net(net_rpn,I_now,Nx);
+          L_proposal(find(L_fg==0))=0;
 
-      if ~isempty(I_proposals_now)
-        [YPred,scores]  = classify(net_rcn,I_proposals_now);
-      else
-        YPred           = [];
+          [I_proposals_now ...
+           centroids ...
+           Y_gt_now ...
+           centroids_fn_rpn]= genRegionProposals(L_proposal>th_prop,L_now,I_now,Nx);
+
+          if ~isempty(I_proposals_now)
+            [YPred,scores]  = classify(net_rcn,I_proposals_now);
+          else
+            YPred           = [];
+          end
+
       end
+      
+      %%
 
       centroids_tp      = centroids(find(YPred=='1' & Y_gt_now==1),:);
       centroids_fp      = centroids(find(YPred=='1' & Y_gt_now==0),:);

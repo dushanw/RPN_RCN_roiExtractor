@@ -14,7 +14,6 @@
 %     2. Region Proposal Extraction 
 %     3. Run RCN
 
-% addpath('./_data/h2ax_tissue/')     % copy original training data to this folder
 
 clear all;clc;
 
