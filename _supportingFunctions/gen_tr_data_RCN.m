@@ -35,7 +35,7 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RCN(I_all,L_all,net_RPN,pram)
   N_val     = round(N_trTot*pram.ValDataRatio);
       
   randInds  = randperm(N_trTot);
-  XTr0      = I_proposals(:,:,1,randInds);
+  XTr0      = I_proposals(:,:,:,randInds);
   YTr0      = categorical(Y_gt(randInds));
 
   XVal      = XTr0(:,:,:,1:N_val);
