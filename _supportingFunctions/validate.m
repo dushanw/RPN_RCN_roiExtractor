@@ -58,14 +58,15 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       centroids_tp     = cat(1,centroids_tp    ,[1 1]);
       centroids_fp     = cat(1,centroids_fp    ,[1 1]);
       centroids_fn     = cat(1,centroids_fn    ,[1 1]);
-            
-      h = imagesc(I_now,[0 2.5]);hold on      
-      plot(centroids_tp(:,1)    ,centroids_tp(:,2)    ,'+g','MarkerSize',10,'LineWidth',1);    
-      plot(centroids_fp(:,1)    ,centroids_fp(:,2)    ,'+r','MarkerSize',10,'LineWidth',1);    
-      plot(centroids_fn(:,1)    ,centroids_fn(:,2)    ,'+b','MarkerSize',10,'LineWidth',1);    
-      plot(centroids_fn_rpn(:,1),centroids_fn_rpn(:,2),'+m','MarkerSize',10,'LineWidth',1);    
+                        
+      h = figure('WindowState','maximized');
+      imagesc(I_now,[0 1]);axis image;hold on
+      plot(centroids_tp(:,1)    ,centroids_tp(:,2)    ,'+g','MarkerSize',30,'LineWidth',1);    
+      plot(centroids_fn(:,1)    ,centroids_fn(:,2)    ,'+r','MarkerSize',30,'LineWidth',1);
+      plot(centroids_fp(:,1)    ,centroids_fp(:,2)    ,'+w','MarkerSize',30,'LineWidth',1);    
+      plot(centroids_fn_rpn(:,1),centroids_fn_rpn(:,2),'+m','MarkerSize',30,'LineWidth',1);    
       hold off
-      truesize
+      % truesize
       saveas(h,['./results/' date '/figs/' fileNameStem '_fig.jpeg']);   
       
   end

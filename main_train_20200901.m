@@ -57,7 +57,10 @@ net_rcn                 = trainNetwork(XTr,YTr,lgraph_rcn,options);
 save(['./__trainedNetworks/rcn' sprintf('_%d_%s.mat',pram.Nx,date)],'net_rcn');
 
 %% validate networks
+load('./__trainedNetworks/rpn_32_08-Mar-2021.mat')
+load('./__trainedNetworks/rcn_32_09-Mar-2021.mat')
 validate(I.test,L.test,I.test_nameStem,net_rpn,net_rcn,pram)
+
 
 
 
