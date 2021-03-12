@@ -87,7 +87,7 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       centroids_fn     = cat(1,centroids_fn    ,[1 1]);
                         
       h = figure('WindowState','maximized');
-      imagesc(I_now,[0 1]);axis image;hold on
+      imagesc(I_now);axis image;hold on;colorbar
       plot(centroids_tp(:,1)    ,centroids_tp(:,2)    ,'+g','MarkerSize',30,'LineWidth',1);    
       plot(centroids_fn(:,1)    ,centroids_fn(:,2)    ,'+r','MarkerSize',30,'LineWidth',1);
       plot(centroids_fp(:,1)    ,centroids_fp(:,2)    ,'+w','MarkerSize',30,'LineWidth',1);    
