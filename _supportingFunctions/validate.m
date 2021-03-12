@@ -84,8 +84,8 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       centroids_fp      = cat(1,centroids_fp    ,[1 1]);
       centroids_fn      = cat(1,centroids_fn    ,[1 1]);
                         
-%      h = figure('WindowState','maximized');
-      h = figure;
+      h = figure('WindowState','maximized');
+%      h = figure;
       clear I_plot
       switch pram.Nc
         case 1
@@ -102,8 +102,8 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       plot(centroids_fn_rpn(:,1),centroids_fn_rpn(:,2),'+m','MarkerSize',30,'LineWidth',1);    
       hold off      
       % truesize
-%      saveas(h,['./results/' date '/figs/' fileNameStem '_fig.jpeg']);   
-      
+      saveas(h,['./results/' date '/figs/' fileNameStem '_fig.jpeg']);   
+      close(h)
   end
   results_table         = table(Filename,...
                                 Counts,Counts_gt,Area_tissue,...
