@@ -23,7 +23,7 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
            Y_gt_now ...
            centroids_fn_rpn]= genRegionProposals(L_proposal>th_prop,L_now,I_now,Nx);
           if ~isempty(I_proposals_now)
-            [YPred,scores]  = classify(net_rcn,I_proposals_now);            
+            [YPred,scores]  = classify(net_rcn,I_proposals_now);
             % remove the extra boder included in input cell cropping (this is a repeat as donee in genRegProposal func)         
             inds_on_cell    = [centroids(:,1) > Nx/2 & ...
                                centroids(:,2) > Nx/2 & ...                                           
@@ -79,21 +79,30 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       Recall(i,1)       = TPs(i,1)/(TPs(i,1)         +FNs(i,1));
       
       % plot on the image
-      centroids_fn_rpn = cat(1,centroids_fn_rpn,[1 1]);% to avoid trying to plot empty array
-      centroids_tp     = cat(1,centroids_tp    ,[1 1]);
-      centroids_fp     = cat(1,centroids_fp    ,[1 1]);
-      centroids_fn     = cat(1,centroids_fn    ,[1 1]);
+      centroids_fn_rpn  = cat(1,centroids_fn_rpn,[1 1]);% to avoid trying to plot empty array
+      centroids_tp      = cat(1,centroids_tp    ,[1 1]);
+      centroids_fp      = cat(1,centroids_fp    ,[1 1]);
+      centroids_fn      = cat(1,centroids_fn    ,[1 1]);
                         
-      h = figure('WindowState','maximized');
-%      h = figure;
-      imagesc(I_now);axis image;hold on;colorbar
+%      h = figure('WindowState','maximized');
+      h = figure;
+      clear I_plot
+      switch pram.Nc
+        case 1
+          I_plot        = I_now(:,:,1);
+        case 2
+          I_plot(:,:,2) = 1   * I_now(:,:,1);
+          I_plot(:,:,3) = 0.5 * I_now(:,:,2)/max(max(I_now(:,:,2)));
+      end      
+      
+      imagesc(I_plot);axis image;hold on;colorbar
       plot(centroids_tp(:,1)    ,centroids_tp(:,2)    ,'+g','MarkerSize',30,'LineWidth',1);    
       plot(centroids_fn(:,1)    ,centroids_fn(:,2)    ,'+r','MarkerSize',30,'LineWidth',1);
       plot(centroids_fp(:,1)    ,centroids_fp(:,2)    ,'+w','MarkerSize',30,'LineWidth',1);    
       plot(centroids_fn_rpn(:,1),centroids_fn_rpn(:,2),'+m','MarkerSize',30,'LineWidth',1);    
       hold off      
       % truesize
-      saveas(h,['./results/' date '/figs/' fileNameStem '_fig.jpeg']);   
+%      saveas(h,['./results/' date '/figs/' fileNameStem '_fig.jpeg']);   
       
   end
   results_table         = table(Filename,...

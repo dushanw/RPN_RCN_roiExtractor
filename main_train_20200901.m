@@ -49,15 +49,15 @@ lgraph_rcn              = gen_RCN(net_rpn);
 % pram.maxEpochs        = 80;% for sr paper fig 4 data 100 epochs work well, more than than over fits
 pram.maxEpochs          = 40;% for h2ax-cells data 40 epochs work well, more than than over fits
 pram.initLearningRate   = 0.1;
-pram.dropPeriod         = round(pram.maxEpochs/2);
+pram.dropPeriod         = round(pram.maxEpochs/4);
 options                 = set_training_options(pram,XVal,YVal);
 
 net_rcn                 = trainNetwork(XTr,YTr,lgraph_rcn,options);
 save(['./__trainedNetworks/rcn' sprintf('_%d_%s.mat',pram.Nx,date)],'net_rcn');
 
 %% validate networks
-load('./__trainedNetworks/rpn_32_08-Mar-2021.mat')
-load('./__trainedNetworks/rcn_32_09-Mar-2021.mat')
+load('./__trainedNetworks/rpn_32_12-Mar-2021_twoCh.mat')
+load('./__trainedNetworks/rcn_32_12-Mar-2021_twoCh.mat')
 validate(I.test,L.test,I.test_nameStem,net_rpn,net_rcn,pram)
 
 
