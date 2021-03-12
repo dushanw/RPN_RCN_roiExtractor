@@ -15,7 +15,7 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
             
       %% dataset specific preprocessing
       switch pram.experimentType
-        case 'h2ax_cells'                                
+        case 'h2ax_cells'   
           Area_tissue_now   = -1;                    
           L_proposal        = apply_proposal_net(net_rpn,I_now,Nx);                    
           [I_proposals_now ...
@@ -24,16 +24,15 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
            centroids_fn_rpn]= genRegionProposals(L_proposal>th_prop,L_now,I_now,Nx);         
           if ~isempty(I_proposals_now)
             [YPred,scores]  = classify(net_rcn,I_proposals_now);            
+            % remove the extra boder included in input cell cropping          
+            centroids         = centroids(centroids(:,1) > Nx/2 & ...
+                                          centroids(:,2) > Nx/2 & ...                                           
+                                          centroids(:,1) < size(I_now,2) - Nx/2 & ...
+                                          centroids(:,2) < size(I_now,1) - Nx/2, :);
           else
             YPred           = [];            
           end
-          % remove the extra boder included in input cell cropping
-          centroids         = centroids(centroids(:,1) > Nx/2 & ...
-                                        centroids(:,2) > Nx/2 & ...                                           
-                                        centroids(:,1) < size(I_now,2) - Nx/2 & ...
-                                        centroids(:,2) < size(I_now,1) - Nx/2, :);
-                   
-        case 'h2ax_tissue'                        
+        case 'h2ax_tissue'  
           if pram.runTissueSeg == 1      
             [L_fg I_now Area_tissue_now L_now] = segmentTissueOtsu(I_now,L_now,Nx);% segments the tissue foreground 
           else
@@ -56,11 +55,8 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
           else
             YPred           = [];
           end
-
       end
-      
-      %%
-
+            
       centroids_tp      = centroids(find(YPred=='1' & Y_gt_now==1),:);
       centroids_fp      = centroids(find(YPred=='1' & Y_gt_now==0),:);
       centroids_fn      = centroids(find(YPred=='0' & Y_gt_now==1),:);
