@@ -25,10 +25,12 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
           if ~isempty(I_proposals_now)
             [YPred,scores]  = classify(net_rcn,I_proposals_now);            
             % remove the extra boder included in input cell cropping          
-            centroids         = centroids(centroids(:,1) > Nx/2 & ...
-                                          centroids(:,2) > Nx/2 & ...                                           
-                                          centroids(:,1) < size(I_now,2) - Nx/2 & ...
-                                          centroids(:,2) < size(I_now,1) - Nx/2, :);
+            inds_on_cell    = [centroids(:,1) > Nx/2 & ...
+                               centroids(:,2) > Nx/2 & ...                                           
+                               centroids(:,1) < size(I_now,2) - Nx/2 & ...
+                               centroids(:,2) < size(I_now,1) - Nx/2 ];
+            centroids       = centroids(inds_on_cell,:);
+            YPred           = YPred    (inds_on_cell);
           else
             YPred           = [];            
           end
@@ -82,7 +84,8 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       centroids_fp     = cat(1,centroids_fp    ,[1 1]);
       centroids_fn     = cat(1,centroids_fn    ,[1 1]);
                         
-      h = figure('WindowState','maximized');
+%      h = figure('WindowState','maximized');
+      h = figure;
       imagesc(I_now);axis image;hold on;colorbar
       plot(centroids_tp(:,1)    ,centroids_tp(:,2)    ,'+g','MarkerSize',30,'LineWidth',1);    
       plot(centroids_fn(:,1)    ,centroids_fn(:,2)    ,'+r','MarkerSize',30,'LineWidth',1);
