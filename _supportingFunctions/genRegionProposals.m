@@ -72,7 +72,7 @@ function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_
       c = round(Centroids(k,1));          
       r = round(Centroids(k,2));
 
-      I_proposals(:,:,1,k) = I0(r-Nx/2:r+Nx/2-1,c-Nx/2:c+Nx/2-1);
+      I_proposals(:,:,:,k) = I0(r-Nx/2:r+Nx/2-1,c-Nx/2:c+Nx/2-1,:);
     end
   end
   

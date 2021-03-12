@@ -11,6 +11,7 @@ function pram = pram_init()
   pram.runTissueSeg       = 0;
   % network paramters
   pram.Nx                 = 64;
+  pram.Nc                 = 2;
   pram.ValDataRatio       = 0.05; % ratio of training data used for validation
   pram.TestDataRatio      = 0.35;
 

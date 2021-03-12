@@ -34,7 +34,7 @@ of                      = cd(pram.TrDataDir);
 
 lgraph_rpn              = gen_RPN(pram);
 
-% pram.maxEpochs          = 60;
+% pram.maxEpochs        = 60;
 pram.maxEpochs          = 30;                       % 30 seeems enough for Nx32 with h2ax-cells
 pram.dropPeriod         = round(pram.maxEpochs/4);
 options                 = set_training_options(pram,XVal,YVal);

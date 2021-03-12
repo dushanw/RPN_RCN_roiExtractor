@@ -1,7 +1,7 @@
 
 function lgraph = gen_RPN(pram)
 
-  sizeIn      = [pram.Nx pram.Nx];
+  sizeIn      = [pram.Nx pram.Nx pram.Nc];
 
   net0_dncnn  = denoisingNetwork('dncnn');
   lgraph      = layerGraph(net0_dncnn.Layers);

@@ -16,6 +16,9 @@ function [I L] = readData(pram)
   I.test  = [];
   L.test  = [];
   t       = 1;
+  
+  rng('default');
+  rng(1);
   for i = 1:length(expNames)
     load(['./' expNames{i} '/I_cell.mat'])
     load(['./' expNames{i} '/L_h2ax.mat'])
@@ -44,7 +47,7 @@ function [I L] = readData(pram)
 end
 
 % preproceessing functions
-function I = subf_normalize_tissue_to_1(I)
+function J = subf_normalize_tissue_to_1(I)
 
   for i = 1:length(I)
     I{i}            = single(I{i});
@@ -55,7 +58,8 @@ function I = subf_normalize_tissue_to_1(I)
     [pks locs]      = findpeaks(hist_I);
     intensity_cell  = intensity_range(locs(end));% last peak is the cell background
 
-    I{i}             = I{i}(:,:,2)/intensity_cell;% select the foci channel
+    J{i}(:,:,1)     = I{i}(:,:,2)/intensity_cell;% select the foci channel as ch1
+    J{i}(:,:,2)     = I{i}(:,:,1)/intensity_cell;% select the nuc channel as ch2    
   end
   
 end
