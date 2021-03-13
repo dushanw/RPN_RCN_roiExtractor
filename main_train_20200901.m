@@ -22,7 +22,9 @@ mkdir('./__trainedNetworks/')
 
 pram                    = pram_init(); % set paramters here
 %pram.Nx                = 16;          % 16 is too small even for the h2ax-cell foci 
-pram.Nx                 = 32;          % 32 works well for h2ax-cell foci at RPN stage 
+%pram.Nx                = 32;          % 32 works well for h2ax-cell foci at RPN stage 
+pram.Nx                 = 64;          % for nuc tissue
+pram.Nc                 = 1;
 
 %% train RPN
 of                      = cd(pram.TrDataDir); 

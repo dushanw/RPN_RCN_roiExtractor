@@ -3,9 +3,9 @@
 
 % datapaths
 function pram = pram_init()
-  pram.experimentType     = 'h2ax_cells';  
-  pram.TrDataDir          = './_data/h2ax_cells/';
-  pram.UseDataDir         = './_data/h2ax_cells/';
+  pram.experimentType     = 'nuc_tissue';           
+  pram.TrDataDir          = './_data/nuc_tissue/';
+  pram.UseDataDir         = './_data/nuc_tissue/';
 
   % tissue segmentation
   pram.runTissueSeg       = 0;

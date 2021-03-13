@@ -33,10 +33,10 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN(I,L,pram)
       for j=1:size(centroids_fg,1)
           Ic = I_now(centroids_fg(j,2)-Nx/2:centroids_fg(j,2)+Nx/2-1,...
                      centroids_fg(j,1)-Nx/2:centroids_fg(j,1)+Nx/2-1,:);
-
+                             
           k = k+1;
           XTrain(:,:,:,k)=Ic;
-          YTrain(k)=1;
+          YTrain(k)=1;                    
       end
 
       for j=1:size(centroids_bg,1)
