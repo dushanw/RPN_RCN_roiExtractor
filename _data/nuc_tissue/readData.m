@@ -13,7 +13,7 @@ function [I L] = readData(pram)
   L.tr   = subf_preProcLabels(L.tr);
   
   I.test = subf_normalize_tissue_to_1(I.test);
-  I.test = subf_preProcLabels(L.test);
+  L.test = subf_preProcLabels(L.test);
 end
 
 % preproceessing functions
