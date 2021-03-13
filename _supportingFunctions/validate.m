@@ -14,10 +14,29 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       fileNameStem      = nameStem_test{i};
             
       %% dataset specific preprocessing
-      switch pram.experimentType
+      switch pram.experimentType                
+        case 'nuc_tissue'   
+          Area_tissue_now   = -1;                    
+          L_proposal        = apply_proposal_net(net_rpn,I_now,Nx);
+          [I_proposals_now ...
+           centroids ...
+           Y_gt_now ...
+           centroids_fn_rpn]= genRegionProposals(L_proposal>th_prop,L_now,I_now,Nx);
+          if ~isempty(I_proposals_now)
+            [YPred,scores]  = classify(net_rcn,I_proposals_now);
+            % remove the extra boder included in input cell cropping (this is a repeat as donee in genRegProposal func)         
+            inds_on_cell    = [centroids(:,1) > Nx/2 & ...
+                               centroids(:,2) > Nx/2 & ...                                           
+                               centroids(:,1) < size(I_now,2) - Nx/2 & ...
+                               centroids(:,2) < size(I_now,1) - Nx/2 ];     
+            centroids       = centroids(inds_on_cell,:);
+            YPred           = YPred    (inds_on_cell);
+          else
+            YPred           = [];            
+          end
         case 'h2ax_cells'   
           Area_tissue_now   = -1;                    
-          L_proposal        = apply_proposal_net(net_rpn,I_now,Nx);                    
+          L_proposal        = apply_proposal_net(net_rpn,I_now,Nx);
           [I_proposals_now ...
            centroids ...
            Y_gt_now ...
