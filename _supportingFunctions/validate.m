@@ -15,7 +15,9 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
             
       %% dataset specific preprocessing
       switch pram.experimentType                
-        case 'nuc_tissue'   
+        case 'nuc_tissue' 
+          L_now           = padarray(L_now,[Nx Nx]);            
+          I_now           = padarray(I_now,[Nx Nx]);
           Area_tissue_now   = -1;                    
           L_proposal        = apply_proposal_net(net_rpn,I_now,Nx);
           [I_proposals_now ...
@@ -34,6 +36,14 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
           else
             YPred           = [];            
           end
+          
+          % temp 20210313 for nuc_tissue dataset
+          savedir  = '~/Documents/tempData/';
+          savename = sprintf('temp_var_%d.mat',i);
+          save([savedir savename],'L_proposal','I_now','L_now');
+          % end temp
+          
+          
         case 'h2ax_cells'   
           Area_tissue_now   = -1;                    
           L_proposal        = apply_proposal_net(net_rpn,I_now,Nx);
