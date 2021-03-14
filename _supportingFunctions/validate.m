@@ -134,7 +134,8 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       plot(centroids_fn_rpn(:,1),centroids_fn_rpn(:,2),'+m','MarkerSize',30,'LineWidth',1);    
       hold off      
       % truesize
-      saveas(h,['./results/' date '/figs/' fileNameStem '_fig.jpeg']);   
+      saveas(h,['./results/' date '/figs/' fileNameStem '_fig.jpeg']); 
+      saveas(h,['./results/' date '/figs/' fileNameStem '_fig.fig']); 
       close(h)
   end
   results_table         = table(Filename,...
