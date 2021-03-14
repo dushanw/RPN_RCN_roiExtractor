@@ -18,7 +18,11 @@ function pram = pram_init()
   % hyper-parameter of the rule-based algorithm
   pram.th_prop            = 0.5;
   pram.th_gt              = 20000;% jenny's annotation are dark dots on bright bg on 16bit image
-
+  pram.gtDistTh           = 10;   % distant threshold for postive labeling using distant between the 
+                                  % proposal centroids vs gt centroids
+                                  % = 5 forh2ax-cells  
+                                  % = 10 for nuc-tissue
+  
   % training parameters 
   pram.maxEpochs          = 20;
   pram.miniBatchSize      = 256;
