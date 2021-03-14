@@ -24,18 +24,18 @@ function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_
   centroids_fn_rpn    = [];
 
   if ~isempty(L_gt)
-    %% region overlap for cell splitting (used for nuc tissue) 
+%%  region overlap for cell splitting (used for nuc tissue) 
         
 %%  region overlap method   (used for H2ax tissue )    
-%   L_added           = single(L)+single(L_gt)*2;
-%   stats             = regionprops(L_added>0,L_added,'Area','Centroid','MaxIntensity');
-%   inds_fn_rpn       = find(vertcat(stats.MaxIntensity)==2);
-%   centroids_fn_rpn  = vertcat(stats(inds_fn_rpn).Centroid);
-% 
-%   stats_proposals   = regionprops(L,L_added,'Area','Centroid','MaxIntensity');
-% 
-%   Centroids         = cat(1,stats_proposals.Centroid);
-%   Y_gt              = vertcat(stats.MaxIntensity)==3;
+    L_added           = single(L)+single(L_gt)*2;
+    stats             = regionprops(L_added>0,L_added,'Area','Centroid','MaxIntensity');
+    inds_fn_rpn       = find(vertcat(stats.MaxIntensity)==2);
+    centroids_fn_rpn  = vertcat(stats(inds_fn_rpn).Centroid);
+
+    stats_proposals   = regionprops(L,L_added,'Area','Centroid','MaxIntensity');
+
+    Centroids         = cat(1,stats_proposals.Centroid);
+    Y_gt              = vertcat(stats.MaxIntensity)==3;
 
 %%  distance method to identify positives (used for h2ax cells)
 %   stats_proposals   = regionprops(L   ,'Centroid');
