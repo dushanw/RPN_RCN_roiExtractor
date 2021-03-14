@@ -50,8 +50,8 @@ function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_
       [min_dist gt_ind] = min(Dist_mat,[],2);        
       Centroids         = centr_proposals;
       Y_gt              = min_dist<pram.gtDistTh;
-
-      inds_fn_rpn       = gt_ind(min_dist >= pram.gtDistTh);
+      
+      inds_fn_rpn       = setdiff(1:size(centr_gt,1),gt_ind(Y_gt));
       centroids_fn_rpn  = centr_gt(inds_fn_rpn,:);
     else
       Centroids         = centr_proposals;
