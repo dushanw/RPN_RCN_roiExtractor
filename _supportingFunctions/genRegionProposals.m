@@ -2,7 +2,7 @@
 % region proposal stage. !! fix it!!
 
 
-function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_gt,I0,Nx)
+function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_gt,I0,Nx,pram)
     
 %   LL(:,:,1) = I0;
 %   LL(:,:,2) = L;
@@ -51,7 +51,7 @@ function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_
       Centroids         = centr_proposals;
       Y_gt              = min_dist<pram.gtDistTh;
 
-      inds_fn_rpn       = gt_ind(min_dist>=pram.gtDistTh);
+      inds_fn_rpn       = gt_ind(min_dist >= pram.gtDistTh);
       centroids_fn_rpn  = centr_gt(inds_fn_rpn,:);
     else
       Centroids         = centr_proposals;
