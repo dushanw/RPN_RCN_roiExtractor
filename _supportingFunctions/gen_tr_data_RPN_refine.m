@@ -28,9 +28,17 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN_refine(I,L,net_RPN,pram)
     L_proposal    = apply_proposal_net(net_RPN,I_now,Nx);
     L_proposal    = L_proposal > pram.th_prop;
     L_diff        = ( L_proposal - (L_proposal & L_now) ) & L_fg;
+
+%   % only selecets the centroids in the error regions
+%   stats         = regionprops(L_diff,'Centroid'); 
+%   centroids_bg  = vertcat(stats(:).Centroid);
     
-    stats         = regionprops(L_diff,'Centroid');
-    centroids_bg  = vertcat(stats(:).Centroid);
+    % slect more pixels on the error regions
+    L_diff        = (bwmorph(L_diff,'skel',Inf)); % skeletonize L_diff    
+    inds_tgt      = find(L_diff==1)
+    [r c]         = ind2sub(size(L_diff),inds_tgt);    
+    centroids_bg  = [c r];
+    
     
     %% extract random negatives
     centroids_rnd = find(L_now==0 & L_fg==1);
