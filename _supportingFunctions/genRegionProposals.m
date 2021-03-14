@@ -27,36 +27,36 @@ function [I_proposals Centroids Y_gt centroids_fn_rpn] = genRegionProposals(L,L_
 %%  region overlap for cell splitting (used for nuc tissue) 
         
 %%  region overlap method   (used for H2ax tissue )    
-    L_added           = single(L)+single(L_gt)*2;
-    stats             = regionprops(L_added>0,L_added,'Area','Centroid','MaxIntensity');
-    inds_fn_rpn       = find(vertcat(stats.MaxIntensity)==2);
-    centroids_fn_rpn  = vertcat(stats(inds_fn_rpn).Centroid);
-
-    stats_proposals   = regionprops(L,L_added,'Area','Centroid','MaxIntensity');
-
-    Centroids         = cat(1,stats_proposals.Centroid);
-    Y_gt              = vertcat(stats.MaxIntensity)==3;
+%     L_added           = single(L)+single(L_gt)*2;
+%     stats             = regionprops(L_added>0,L_added,'Area','Centroid','MaxIntensity');
+%     inds_fn_rpn       = find(vertcat(stats.MaxIntensity)==2);
+%     centroids_fn_rpn  = vertcat(stats(inds_fn_rpn).Centroid);
+% 
+%     stats_proposals   = regionprops(L,L_added,'Area','Centroid','MaxIntensity');
+% 
+%     Centroids         = cat(1,stats_proposals.Centroid);
+%     Y_gt              = vertcat(stats.MaxIntensity)==3;
 
 %%  distance method to identify positives (used for h2ax cells)
-%   stats_proposals   = regionprops(L   ,'Centroid');
-%   stats_gt          = regionprops(L_gt,'Centroid');
-% 
-%   centr_proposals   = cat(1,stats_proposals.Centroid);
-%   centr_gt          = cat(1,stats_gt.Centroid);
-% 
-%   if ~isempty(centr_gt)
-%     Dist_mat          =  sqrt((centr_proposals(:,1) - centr_gt(:,1)').^2 + ...
-%                               (centr_proposals(:,2) - centr_gt(:,2)').^2);
-%     [min_dist gt_ind] = min(Dist_mat,[],2);        
-%     Centroids         = centr_proposals;
-%     Y_gt              = min_dist<5;
-% 
-%     inds_fn_rpn       = gt_ind(min_dist>=5);
-% 
-%   else
-%     Centroids         = centr_proposals;
-%     Y_gt              = zeros(size(Centroids,1),1);          
-%   end
+    stats_proposals   = regionprops(L   ,'Centroid');
+    stats_gt          = regionprops(L_gt,'Centroid');
+
+    centr_proposals   = cat(1,stats_proposals.Centroid);
+    centr_gt          = cat(1,stats_gt.Centroid);
+
+    if ~isempty(centr_gt)
+      Dist_mat          =  sqrt((centr_proposals(:,1) - centr_gt(:,1)').^2 + ...
+                                (centr_proposals(:,2) - centr_gt(:,2)').^2);
+      [min_dist gt_ind] = min(Dist_mat,[],2);        
+      Centroids         = centr_proposals;
+      Y_gt              = min_dist<5;
+
+      inds_fn_rpn       = gt_ind(min_dist>=5);
+      centroids_fn_rpn  = centr_gt(inds_fn_rpn,:);
+    else
+      Centroids         = centr_proposals;
+      Y_gt              = zeros(size(Centroids,1),1);          
+    end
   else
     stats_proposals   = regionprops(L,'Area','Centroid');
     Centroids         = cat(1,stats_proposals.Centroid);
