@@ -33,12 +33,11 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN_refine(I,L,net_RPN,pram)
     centroids_bg  = vertcat(stats(:).Centroid);
     
     %% extract random negatives
-    centroids_bg_temp = find(L_now==0 & L_fg==1);
-    centroids_bg_temp = centroids_bg_temp(randi(length(centroids_bg_temp),[N_fg*2 1]));
-    [r c] = ind2sub(size(L_now),centroids_bg_temp);
-    clear centroids_bg
-    centroids_bg(:,1) = [centroids_bg(:,1) c];
-    centroids_bg(:,2) = [centroids_bg(:,2) r];
+    centroids_rnd = find(L_now==0 & L_fg==1);
+    centroids_rnd = centroids_rnd(randi(length(centroids_rnd),[N_fg 1]));
+    [r c]         = ind2sub(size(L_now),centroids_rnd);    
+    centroids_bg  = cat(1,centroids_bg,[c r]);
+    
       
     %% crop image locations
     for j=1:size(centroids_fg,1)
