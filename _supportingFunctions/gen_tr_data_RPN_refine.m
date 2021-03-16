@@ -35,7 +35,7 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN_refine(I,L,net_RPN,pram)
     
     % slect more pixels on the error regions
     L_diff        = (bwmorph(L_diff,'skel',Inf)); % skeletonize L_diff    
-    inds_tgt      = find(L_diff==1)
+    inds_tgt      = find(L_diff==1);
     [r c]         = ind2sub(size(L_diff),inds_tgt);    
     centroids_bg  = [c r];
     
