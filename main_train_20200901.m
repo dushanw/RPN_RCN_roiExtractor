@@ -22,7 +22,8 @@ pram                    = pram_init(); % set paramters here
 
 %% train RPN                    
 of                      = cd(pram.TrDataDir);
-[I L]                   = readData(pram); cd(of)    % I.tr, I.test, L.tr, L.test
+[I L]                   = readData(pram);     % I.tr, I.test, L.tr, L.test
+cd(of)
 % imagesc(imtile(I.tr{randi(length(I.tr))}));axis image;colorbar
 
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RPN(I.tr,L.tr,pram);
@@ -69,8 +70,7 @@ options                 = set_training_options(pram,XVal,YVal);
 save(['./__trainedNetworks/rcn' sprintf('_%d_%s.mat',pram.Nx,date)],'net_rcn','tr_info');
 
 
-
-
+% 2021-03-20 tested the h2ax-cell dataset for runtime errors. didn't test the arracray. 
 
 
 

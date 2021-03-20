@@ -3,8 +3,9 @@
 
 % datapaths
 function pram = pram_init()
-  pram.experimentType     = 'h2ax_cells';   % {'nuc_tissue','h2ax_tissue','h2ax_cells'}
-  pram.dataset            = 'h2ax_cells';   % {'nuc_tissue',
+  pram.experimentType     = 'h2ax_tissue';  % {'nuc_tissue','h2ax_tissue','h2ax_cells'}
+  pram.dataset            = 'h2ax_wadduwage2018automated_fig4';   
+                                            % {'nuc_tissue',
                                             %  'h2ax_tissue',
                                             %  'h2ax_cells',
                                             %  'h2ax_wadduwage2018automated_fig4',
