@@ -35,8 +35,8 @@ function [I L] = readData(pram)
     L.tr      = [L.tr   {L_h2ax{rand_inds(tr_inds  )}}];
     L.test    = [L.test {L_h2ax{rand_inds(test_inds)}}];   
     for j=1:length(test_inds)
-      I.test_nameStem{t}  = [expNames{i} '_' sprintf('%d',j)];
-      t                   = t + 1;
+      I.testNames{t}  = [expNames{i} '_' sprintf('%d',j)];
+      t               = t + 1;
     end
   end
   

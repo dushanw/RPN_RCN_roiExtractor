@@ -1,5 +1,5 @@
 % 20200901 by Dushan N. Wadduwage (wadduwage@fas.harvard.edu)
-%
+%% readme                       
 % Foci counter with Region Proposal(RPN) + Region Classification(RCN) 
 % NetworkArchitectures: 
 %     RPN = SharedLahyers + 2x(Conv)+ SofMax + Classification
@@ -19,7 +19,6 @@ clear all;clc;
 
 addpath('./_supportingFunctions/')
 mkdir('./__trainedNetworks/')
-
 pram                    = pram_init(); % set paramters here
 
 %% train RPN                    
@@ -56,7 +55,7 @@ save(['./__trainedNetworks/rpn1' sprintf('_%s_%s_%d_%s.mat',pram.experimentType,
                                                             pram.dataset,...
                                                             pram.Nx,date)],'net_rpn','tr_info');
 
-%% train RCN
+%% train RCN                    
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RCN(I.tr,L.tr,net_rpn,pram);
 [XTr, YTr            ]  = f_augmentDataSet(XTr , YTr );
 [          XVal, YVal]  = f_augmentDataSet(XVal, YVal);
@@ -72,10 +71,13 @@ save(['./__trainedNetworks/rcn' sprintf('_%d_%s.mat',pram.Nx,date)],'net_rcn','t
 
 
 
+
+
+
+
 %% validate networks 2021-03-20 still not cleaned up
 % load('./__trainedNetworks/rpn_32_12-Mar-2021_twoCh.mat')
 % load('./__trainedNetworks/rcn_32_12-Mar-2021_twoCh.mat')
-% validate(I.test,L.test,I.test_nameStem,net_rpn,net_rcn,pram)
 
 validate(I.test,L.test,I.testNames,net_rpn,net_rcn,pram)
 
