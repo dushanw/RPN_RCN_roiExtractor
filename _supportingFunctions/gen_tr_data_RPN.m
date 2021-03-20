@@ -57,10 +57,10 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN(I,L,pram)
   XTrain    = XTrain(:,:,:,randInds);    
   YTrain    = categorical(YTrain);
   
-  XVal = XTrain(:,:,:,1:N_val);
-  YVal = YTrain(:,1:N_val);
-  XTr  = XTrain(:,:,:,N_val+1:end); 
-  YTr  = YTrain(:,N_val+1:end); 
+  XVal      = XTrain(:,:,:,1:N_val);
+  YVal      = YTrain(:,1:N_val);
+  XTr       = XTrain(:,:,:,N_val+1:end); 
+  YTr       = YTrain(:,N_val+1:end); 
 end
 
 

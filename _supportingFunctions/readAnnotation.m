@@ -9,6 +9,5 @@ function L = readAnnotation(filename)
        
        if sum(L(:)==0) < sum(L(:)==1)
          L = ~ L;
-       end
-       
+       end       
 end

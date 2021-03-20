@@ -8,7 +8,7 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN_refine(I,L,net_RPN,pram)
     L_now = L{i};
     I_now = I{i};
 
-    %% preprocess
+    %% preprocess                     
     if pram.runTissueSeg == 1      
       [L_fg I_now A L_now] = segmentTissueOtsu(I_now,L_now,Nx);% segments the tissue foreground 
     else        
@@ -24,7 +24,7 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN_refine(I,L,net_RPN,pram)
     centroids_fg  = vertcat(stats(:).Centroid);
     N_fg          = size(centroids_fg,1);
 
-    %% extract targetted negatives
+    %% extract targetted negatives    
     L_proposal    = apply_proposal_net(net_RPN,I_now,Nx);
     L_proposal    = L_proposal > pram.th_prop;
     L_diff        = ( L_proposal - (L_proposal & L_now) ) & L_fg;
@@ -38,16 +38,14 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN_refine(I,L,net_RPN,pram)
     inds_tgt      = find(L_diff==1);
     [r c]         = ind2sub(size(L_diff),inds_tgt);    
     centroids_bg  = [c r];
-    
-    
-    %% extract random negatives
+        
+    %% extract random negatives       
     centroids_rnd = find(L_now==0 & L_fg==1);
     centroids_rnd = centroids_rnd(randi(length(centroids_rnd),[N_fg 1]));
     [r c]         = ind2sub(size(L_now),centroids_rnd);    
     centroids_bg  = cat(1,centroids_bg,[c r]);
-    
-      
-    %% crop image locations
+          
+    %% crop image locations           
     for j=1:size(centroids_fg,1)
         Ic = I_now(centroids_fg(j,2)-Nx/2:centroids_fg(j,2)+Nx/2-1,...
                    centroids_fg(j,1)-Nx/2:centroids_fg(j,1)+Nx/2-1,:);
@@ -75,9 +73,9 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN_refine(I,L,net_RPN,pram)
   XTrain    = XTrain(:,:,:,randInds);    
   YTrain    = categorical(YTrain);
   
-  XVal = XTrain(:,:,:,1:N_val);
-  YVal = YTrain(:,1:N_val);
-  XTr  = XTrain(:,:,:,N_val+1:end); 
-  YTr  = YTrain(:,N_val+1:end); 
+  XVal      = XTrain(:,:,:,1:N_val);
+  YVal      = YTrain(:,1:N_val);
+  XTr       = XTrain(:,:,:,N_val+1:end); 
+  YTr       = YTrain(:,N_val+1:end); 
 end
 

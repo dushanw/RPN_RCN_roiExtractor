@@ -3,32 +3,61 @@
 
 % datapaths
 function pram = pram_init()
-  pram.experimentType     = 'nuc_tissue';           
-  pram.TrDataDir          = './_data/nuc_tissue/';
-  pram.UseDataDir         = './_data/nuc_tissue/';
+  pram.experimentType     = 'h2ax_cells';   % {'nuc_tissue','h2ax_tissue','h2ax_cells'}
+  pram.dataset            = 'h2ax_cells';   % {'nuc_tissue',
+                                            %  'h2ax_tissue',
+                                            %  'h2ax_cells',
+                                            %  'h2ax_wadduwage2018automated_fig4',
+                                            %  'h2ax_wadduwage2018automated_fig5'}        
+  pram.TrDataDir          = ['./_data/' pram.dataset '/'];
+  pram.UseDataDir         = ['./_data/' pram.dataset '/'];
 
-  % tissue segmentation
-  pram.runTissueSeg       = 0;
+  % experiment type and dataset dependent parameters
+  switch pram.experimentType
+    case 'nuc_tissue'
+      pram.runTissueSeg   = 0;              % tissue segmentation
+      pram.Nx             = 64;
+      pram.Nc             = 1;
+      pram.maxEpochs_rpn  = 20;
+      pram.maxEpochs_rcn  = 10; 
+      pram.th_prop        = 0.2;
+      pram.gtDistTh       = 10;             % distant threshold for postive labeling using distant between the proposal 
+                                            % centroids vs gt centroids
+    case 'h2ax_tissue'
+      switch pram.dataset
+        case 'h2ax_tissue'                  % only 2020 h2ax_tissue has better sbr on tissue
+          pram.runTissueSeg = 1;          
+      otherwise
+        pram.runTissueSeg   = 0;
+      end
+      pram.Nx             = 64;             % ?
+      pram.Nc             = 1;
+      pram.maxEpochs_rpn  = 20;             % ???
+      pram.maxEpochs_rcn  = 10;             % ???
+      pram.th_prop        = 0.2;            % ???
+      pram.gtDistTh       = 10;             % ??? distant threshold for postive labeling using distant between the proposal 
+                                            % centroids vs gt centroids
+    case 'h2ax_cells'      
+      pram.runTissueSeg   = 0;
+      pram.Nx             = 32;
+      pram.Nc             = 2;
+      pram.maxEpochs_rpn  = 30;             % ??
+      pram.maxEpochs_rcn  = 10;             % ???
+      pram.th_prop        = 0.2;            % ???  
+      pram.gtDistTh       = 5;              % distant threshold for postive labeling using distant between the proposal 
+                                            % centroids vs gt centroids
+  end
+  pram.maxEpochs          = pram.maxEpochs_rpn;
+  
   % network paramters
-  pram.Nx                 = 64;
-  pram.Nc                 = 2;
-  pram.ValDataRatio       = 0.05; % ratio of training data used for validation
+  pram.ValDataRatio       = 0.05;           % ratio of training data used for validation
   pram.TestDataRatio      = 0.35;
-
-  % hyper-parameter of the rule-based algorithm
-  pram.th_prop            = 0.5;
-  pram.th_gt              = 20000;% jenny's annotation are dark dots on bright bg on 16bit image
-  pram.gtDistTh           = 10;   % distant threshold for postive labeling using distant between the 
-                                  % proposal centroids vs gt centroids
-                                  % = 5 forh2ax-cells  
-                                  % = 10 for nuc-tissue
   
   % training parameters 
-  pram.maxEpochs          = 20;
   pram.miniBatchSize      = 256;
   pram.initLearningRate   = 1;
   pram.learningRateFactor = .1;
   pram.dropPeriod         = round(pram.maxEpochs/4);
   pram.l2reg              = 0.0001;
-  pram.excEnv             = 'multi-gpu';   % 'gpu', 'multi-gpu'
+  pram.excEnv             = 'multi-gpu';    % {'gpu','multi-gpu','cpu'}
 end

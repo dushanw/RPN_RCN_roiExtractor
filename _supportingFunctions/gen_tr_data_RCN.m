@@ -9,8 +9,7 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RCN(I_all,L_all,net_RPN,pram)
   Y_gt          = [];
 
   for i=1:length(I_all)
-      i
-            
+      i            
       if pram.runTissueSeg == 1      
         [L_fg I_now Area_tissue_now L_now] = segmentTissueOtsu(I_all{i},L_all{i},Nx);% segments the tissue foreground 
       else        
@@ -21,8 +20,8 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RCN(I_all,L_all,net_RPN,pram)
         Area_tissue_now = -1;
       end
       
-      L_proposal                = apply_proposal_net(net_RPN,I_now,Nx);
-      L_proposal(find(L_fg==0)) = 0;
+      L_proposal                  = apply_proposal_net(net_RPN,I_now,Nx);
+      L_proposal(find(L_fg==0))   = 0;
       % L         = imextendedmax(L_proposal,0.01); % anoter way is to use the extended maxima transform 
       [I_proposals_now, Centroids{i}, Y_gt_now] = genRegionProposals(L_proposal>th_prop,L_now,I_now,Nx,pram);
 
