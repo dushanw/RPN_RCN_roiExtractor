@@ -14,9 +14,8 @@
 %     2. Region Proposal Extraction 
 %     3. Run RCN
 
-
+%% 
 clear all;clc;
-
 addpath('./_supportingFunctions/')
 mkdir('./__trainedNetworks/')
 pram                    = pram_init(); % set paramters here
