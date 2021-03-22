@@ -67,10 +67,14 @@ pram.dropPeriod         = round(pram.maxEpochs/4);
 options                 = set_training_options(pram,XVal,YVal);
 
 [net_rcn, tr_info]      = trainNetwork(XTr,YTr,lgraph_rcn,options);
-save(['./__trainedNetworks/rcn' sprintf('_%d_%s.mat',pram.Nx,date)],'net_rcn','tr_info');
+save(['./__trainedNetworks/rcn' sprintf('_%s_%s_%d_%s.mat', pram.experimentType,...
+                                                            pram.dataset,...
+                                                            pram.Nx,date)],'net_rcn','tr_info');
+
 
 
 % 2021-03-20 tested the h2ax-cell dataset for runtime errors. didn't test the arracray. 
+% 2021-03-22 tested the h2ax-tissue dataset for runtime errors. didn't test the arracray. 
 
 
 
