@@ -114,8 +114,13 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       Precision(i,1)    = TPs(i,1)/(TPs(i,1)+FPs(i,1)         );
       Recall(i,1)       = TPs(i,1)/(TPs(i,1)         +FNs(i,1));
       
-      %% plot/save rpn figures
-      save([resDir '/figs_rpn/' fileNameStem '_figs.mat'],'L_proposal','I_now','L_now');
+      %% plot/save rpn figures      
+      h = figure('WindowState','maximized');
+      L_plot = single(L_proposal>th_prop);
+      L = L + 2*L_now;
+      imagesc(labeloverlay(I_now/3,L));axis image;            
+      saveas(h,[resDir '/figs_rpn/' fileNameStem '_figs.fig']);
+      close(h)
       
       %% plot rcn figures      
       h = figure('WindowState','maximized');
@@ -139,8 +144,8 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       plot(centroids_fn_rpn(:,1),centroids_fn_rpn(:,2),'+m','MarkerSize',30,'LineWidth',1);    
       hold off      
       % truesize
-      saveas(h,['./results/' date '/figs/' fileNameStem '_fig.jpeg']); 
-      saveas(h,['./results/' date '/figs/' fileNameStem '_fig.fig']); 
+      saveas(h,[resDir '/figs_rcn/' fileNameStem '_fig.jpeg']); 
+      saveas(h,[resDir '/figs_rcn/' fileNameStem '_fig.fig']); 
       close(h)      
   end
   
@@ -150,7 +155,6 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
                                 Accuracy,Precision,Recall,...
                                 TPs,FPs,FNs,FNs_rpn);
   writetable(results_table,[resDir 'run_' date '.xls']);
-
 end
 
 
