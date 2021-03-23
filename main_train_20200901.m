@@ -73,9 +73,9 @@ save(['./__trainedNetworks/rcn' sprintf('_%s_%s_%d_%s.mat', pram.experimentType,
 
 
 
-% 2021-03-20 tested the h2ax-cell dataset for runtime errors. didn't test the arracray. 
-% 2021-03-22 tested the h2ax-tissue dataset for runtime errors. didn't test the arracray. 
-
+% 2021-03-20 tested the h2ax-cell dataset for runtime errors. didn't test the accuray. 
+% 2021-03-22 tested the h2ax-tissue dataset for runtime errors. didn't test the accuray. 
+% 2021-03-23 tested the nuc-tissue dataset for runtime errors. didn't test the accuray. 
 
 
 %% validate networks 2021-03-20 still not cleaned up
