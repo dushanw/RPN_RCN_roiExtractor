@@ -118,7 +118,8 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       h = figure('WindowState','maximized');
       L_plot = single(L_proposal>th_prop);
       L_plot = L_plot + 2*L_now;
-      imagesc(labeloverlay(I_now/3,L_plot));axis image;            
+      L_plot(1,1) = 3;% to avoid trying to overlay empty array
+      imagesc(labeloverlay(I_now/3,L_plot));axis image;
       saveas(h,[resDir '/figs_rpn/' fileNameStem '_figs.fig']);
       close(h)
       
