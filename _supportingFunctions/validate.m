@@ -114,15 +114,6 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       Precision(i,1)    = TPs(i,1)/(TPs(i,1)+FPs(i,1)         );
       Recall(i,1)       = TPs(i,1)/(TPs(i,1)         +FNs(i,1));
       
-      %% plot/save rpn figures      
-      h = figure('WindowState','maximized');
-      L_plot = single(L_proposal>th_prop);
-      L_plot = L_plot + 2*L_now;
-      L_plot(1,1) = 3;% to avoid trying to overlay empty array
-      imagesc(labeloverlay(I_now/3,L_plot));axis image;
-      saveas(h,[resDir '/figs_rpn/' fileNameStem '_figs.fig']);
-      close(h)
-      
       %% plot rcn figures      
       h = figure('WindowState','maximized');
       clear I_plot
@@ -148,6 +139,16 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       saveas(h,[resDir '/figs_rcn/' fileNameStem '_fig.jpeg']); 
       saveas(h,[resDir '/figs_rcn/' fileNameStem '_fig.fig']); 
       close(h)      
+              
+      %% plot/save rpn figures      
+      h = figure('WindowState','maximized');
+      L_plot = single(L_proposal>th_prop);
+      L_plot = L_plot + 2*L_now;
+      L_plot(1,1) = 3;% to avoid trying to overlay empty array
+      imagesc(labeloverlay(I_plot/3,L_plot));axis image;
+      saveas(h,[resDir '/figs_rpn/' fileNameStem '_figs.fig']);
+      close(h)
+      
   end
   
   %% save results summary
