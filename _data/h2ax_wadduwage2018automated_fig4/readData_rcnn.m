@@ -79,9 +79,9 @@ function I = subf_readRescale5k(filename)
    I0 = sum(I0,3);
   end
   I0  = single(I0)/5000;
-  I(:,:,3) = I(1:2000,1:2000);
-  I(:,:,2) = I(1:2000,1:2000);
-  I(:,:,1) = I(1:2000,1:2000);    
+  I(:,:,3) = I0(1:2000,1:2000);
+  I(:,:,2) = I0(1:2000,1:2000);
+  I(:,:,1) = I0(1:2000,1:2000);    
 end    
 
 function L = subf_readAnnotation(filename)
