@@ -14,8 +14,14 @@ function ds       = readData_rcnn(pram)
     L_now         = L{i};
     stats         = regionprops(L_now,'Centroid');
     centroids_fg  = vertcat(stats(:).Centroid);    
-    N_fg          = size(centroids_fg,1);
     
+    outInds       = find(centroids_fg(:,1)<pram.Nx |...
+                         centroids_fg(:,1)>2000 - pram.Nx | ...
+                         centroids_fg(:,2)<pram.Nx |...
+                         centroids_fg(:,2)>2000 - pram.Nx)
+    centroids_fg(outInds,:) = [];
+                       
+    N_fg          = size(centroids_fg,1);    
     foci{i,1}     = cat(2,round(centroids_fg)-pram.Nx/2,ones(size(centroids_fg))*pram.Nx);
   end
   blds            = boxLabelDatastore(table(foci));    
