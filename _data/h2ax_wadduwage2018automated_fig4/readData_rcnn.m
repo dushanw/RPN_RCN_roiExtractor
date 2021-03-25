@@ -1,7 +1,7 @@
 
 
 function ds       = readData_rcnn(pram)           
- 
+   
   In_imds_dir     = fullfile('./Imds');
   Out_imds_dir    = fullfile('./Pxds');
   In_imds         = imageDatastore(In_imds_dir ,'ReadFcn', @subf_readRescale5k );
@@ -18,10 +18,10 @@ function ds       = readData_rcnn(pram)
     outInds       = find(centroids_fg(:,1)<pram.Nx |...
                          centroids_fg(:,1)>2000 - pram.Nx | ...
                          centroids_fg(:,2)<pram.Nx |...
-                         centroids_fg(:,2)>2000 - pram.Nx)
+                         centroids_fg(:,2)>2000 - pram.Nx);
     centroids_fg(outInds,:) = [];
                        
-    N_fg          = size(centroids_fg,1);    
+    N_fg          = size(centroids_fg,1);
     foci{i,1}     = cat(2,round(centroids_fg)-pram.Nx/2,ones(size(centroids_fg))*pram.Nx);
   end
   blds            = boxLabelDatastore(table(foci));    
@@ -74,12 +74,14 @@ function L = subf_dialate_labels(L)
 end
 
 function I = subf_readRescale5k(filename) 
-  I0 = imread(filename);
+  I0  = imread(filename);
   if size(I0,3)>1
    I0 = sum(I0,3);
   end
-  I = single(I0)/5000;
-  I = I(1:2000,1:2000);
+  I0  = single(I0)/5000;
+  I(:,:,3) = I(1:2000,1:2000);
+  I(:,:,2) = I(1:2000,1:2000);
+  I(:,:,1) = I(1:2000,1:2000);    
 end    
 
 function L = subf_readAnnotation(filename)
