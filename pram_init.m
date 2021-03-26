@@ -33,11 +33,11 @@ function pram = pram_init()
         pram.runTissueSeg   = 0;
       end
       pram.miniBatchSize  = 256;
-      pram.Nx             = 64;             % ?
+      pram.Nx             = 128;            % ?? 64 tried, now try 128
       pram.Nc             = 1;
-      pram.maxEpochs_rpn  = 20;             % ???
-      pram.maxEpochs_rcn  = 5;              % ???
-      pram.th_prop        = 0.9;            % ???
+      pram.maxEpochs_rpn  = 10;             % 
+      pram.maxEpochs_rcn  = 40;             % ???
+      pram.th_prop        = 0.9;            % ??
       pram.gtDistTh       = 10;             % ??? distant threshold for postive labeling using distant between the proposal 
                                             % centroids vs gt centroids
     case 'h2ax_cells'      

@@ -50,7 +50,7 @@ pram.maxEpochs          = pram.maxEpochs_rpn;
 pram.dropPeriod         = round(pram.maxEpochs/4);
 options                 = set_training_options(pram,XVal,YVal);
 
-[net_rpn, tr_info]      = trainNetwork(XTr,YTr,lgraph_rpn,options);
+[net_rpn, tr_info]      = trainNetwork(XTr,YTr,layerGraph(net_rpn),options);
 save(['./__trainedNetworks/rpn1' sprintf('_%s_%s_%d_%s.mat',pram.experimentType,...
                                                             pram.dataset,...
                                                             pram.Nx,date)],'net_rpn','tr_info');
@@ -62,7 +62,7 @@ save(['./__trainedNetworks/rpn1' sprintf('_%s_%s_%d_%s.mat',pram.experimentType,
 
 lgraph_rcn              = gen_RCN(net_rpn);
 pram.maxEpochs          = pram.maxEpochs_rcn;
-% pram.initLearningRate   = 0.1;      % ??? still needed? 
+pram.initLearningRate   = 0.1;      % ??? still needed? 
 pram.dropPeriod         = round(pram.maxEpochs/4);
 options                 = set_training_options(pram,XVal,YVal);
 

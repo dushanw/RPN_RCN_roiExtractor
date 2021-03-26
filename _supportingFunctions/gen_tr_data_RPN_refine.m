@@ -24,7 +24,7 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RPN_refine(I,L,net_RPN,pram)
     centroids_fg  = vertcat(stats(:).Centroid);
     N_fg          = size(centroids_fg,1);
 
-    %% extract targetted negatives    
+    %% extract false positives from RPN
     L_proposal    = apply_proposal_net(net_RPN,I_now,Nx);
     L_proposal    = L_proposal > pram.th_prop;
     L_diff        = ( L_proposal - (L_proposal & L_now) ) & L_fg;
