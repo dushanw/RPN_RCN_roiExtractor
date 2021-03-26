@@ -1,7 +1,7 @@
 
 function BW_proposal = apply_proposal_net(net,I,Nx)
     
-  Dx = 2000;% block size
+  Dx = 1000;% block size
   r_start = (1:Dx:size(I,1))+Nx/2;
   c_start = (1:Dx:size(I,2))+Nx/2;    
   r_end = [r_start(2:end)-1 size(I,1)+Nx/2];
