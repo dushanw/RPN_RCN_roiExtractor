@@ -44,13 +44,11 @@ function I = subf_normalize_tissue_to_1(I)
 end
 
 function L = subf_dialate_labels(L)
-  r_max = 10;
-  se    = strel('disk',r_max);
-  for i = 1:length(L)
-    
-    BW2 = imdilate(BW,se);
-  
-  end
+%   r_max = 10;
+%   se    = strel('disk',r_max);
+%   for i = 1:length(L)    
+%     L{i} = imdilate(L{i},se);  
+%   end
 end
 
 function I = subf_readRescale5k(filename) 
