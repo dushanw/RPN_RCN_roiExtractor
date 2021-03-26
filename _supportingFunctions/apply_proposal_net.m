@@ -21,9 +21,9 @@ function BW_proposal = apply_proposal_net(net,I,Nx)
 
   for i = 1:length(r_start)
     for j = 1:length(c_start)
-      size(I(r_start(i)-Nx/2:r_end(i)+Nx/2-1,c_start(j)-Nx/2:c_end(j)+Nx/2-1,:))
-%       BW_pred_now = activations(net,I(r_start(i)-Nx/2:r_end(i)+Nx/2-1,c_start(j)-Nx/2:c_end(j)+Nx/2-1,:),'Classification1');
-%       BW_proposal(r_start(i):r_end(i),c_start(j):c_end(j))= BW_pred_now(:,:,2);               
+%      size(I(r_start(i)-Nx/2:r_end(i)+Nx/2-1,c_start(j)-Nx/2:c_end(j)+Nx/2-1,:))
+      BW_pred_now = activations(net,I(r_start(i)-Nx/2:r_end(i)+Nx/2-1,c_start(j)-Nx/2:c_end(j)+Nx/2-1,:),'Classification1');
+      BW_proposal(r_start(i):r_end(i),c_start(j):c_end(j))= BW_pred_now(:,:,2);               
     end
   end 
   BW_proposal = BW_proposal(Nx/2+1:end-Nx/2,Nx/2+1:end-Nx/2);
