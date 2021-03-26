@@ -15,8 +15,9 @@ function pram = pram_init()
 
   % experiment type and dataset dependent parameters
   switch pram.experimentType
-    case 'nuc_tissue'
+    case 'nuc_tissue'      
       pram.runTissueSeg   = 0;              % tissue segmentation
+      pram.miniBatchSize  = 256;
       pram.Nx             = 64;
       pram.Nc             = 1;
       pram.maxEpochs_rpn  = 20;
@@ -31,15 +32,17 @@ function pram = pram_init()
       otherwise
         pram.runTissueSeg   = 0;
       end
+      pram.miniBatchSize  = 256;
       pram.Nx             = 64;             % ?
       pram.Nc             = 1;
       pram.maxEpochs_rpn  = 20;             % ???
-      pram.maxEpochs_rcn  = 10;             % ???
-      pram.th_prop        = 0.2;            % ???
+      pram.maxEpochs_rcn  = 5;              % ???
+      pram.th_prop        = 0.9;            % ???
       pram.gtDistTh       = 10;             % ??? distant threshold for postive labeling using distant between the proposal 
                                             % centroids vs gt centroids
     case 'h2ax_cells'      
       pram.runTissueSeg   = 0;
+      pram.miniBatchSize  = 256;
       pram.Nx             = 32;
       pram.Nc             = 2;
       pram.maxEpochs_rpn  = 30;             % ??
@@ -55,7 +58,7 @@ function pram = pram_init()
   pram.TestDataRatio      = 0.35;
   
   % training parameters 
-  pram.miniBatchSize      = 256;
+  % pram.miniBatchSize      = 256;
   pram.initLearningRate   = 1;
   pram.learningRateFactor = .1;
   pram.dropPeriod         = round(pram.maxEpochs/4);

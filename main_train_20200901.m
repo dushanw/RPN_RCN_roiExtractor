@@ -72,11 +72,10 @@ save(['./__trainedNetworks/rcn' sprintf('_%s_%s_%d_%s.mat', pram.experimentType,
                                                             pram.Nx,date)],'net_rcn','tr_info');
 
 
-
 % 2021-03-20 tested the h2ax-cell dataset for runtime errors. didn't test the accuray. 
 % 2021-03-22 tested the h2ax-tissue dataset for runtime errors. didn't test the accuray. 
 % 2021-03-23 tested the nuc-tissue dataset for runtime errors. didn't test the accuray. 
-
+% 2021-03-26 trained and analysed the results for h2ax-tissue. pram.th_prop was = 0.2. The results were bad. Now trying 0.9 
 
 %% validate networks 2021-03-20 still not cleaned up
 % load('./__trainedNetworks/rpn_32_12-Mar-2021_twoCh.mat')

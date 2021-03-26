@@ -8,14 +8,14 @@ function [I L] = readData(pram)
   L_imds        = imageDatastore(Out_imds_dir,'ReadFcn', @subf_readAnnotation);
 
   I.tr          = subf_normalize_tissue_to_1(In_imds.readall);
-  L.tr          = L_imds.readall;
+  L.tr          = subf_dialate_labels       (L_imds.readall );
   
   In_imds_dir   = fullfile('./Imds_test');
   Out_imds_dir  = fullfile('./Pxds_test');
   In_imds       = imageDatastore(In_imds_dir,'ReadFcn', @subf_readRescale5k );
   L_imds        = imageDatastore(Out_imds_dir,'ReadFcn',@subf_readAnnotation);
   I.test        = subf_normalize_tissue_to_1(In_imds.readall);
-  L.test        = L_imds.readall;
+  L.test        = subf_dialate_labels       (L_imds.readall );
   
   % make file name stems for saving results
   for i = 1:length(In_imds.Files)         
@@ -43,6 +43,16 @@ function I = subf_normalize_tissue_to_1(I)
   
 end
 
+function L = subf_dialate_labels(L)
+  r_max = 10;
+  se    = strel('disk',r_max);
+  for i = 1:length(L)
+    
+    BW2 = imdilate(BW,se);
+  
+  end
+end
+
 function I = subf_readRescale5k(filename) 
        I0 = imread(filename);
        if size(I0,3)>1
@@ -56,7 +66,8 @@ function L = subf_readAnnotation(filename)
        if size(I0,3)>1
          I0 = mean(I0,3);
        end
-       th   = (max(I0(:)) + min(I0(:)))/2 ;
+       % th = (max(I0(:)) + min(I0(:)))/2 ; % half therhold is not ideal it meges some objects together
+       th   = min(I0(:)) + (max(I0(:)) - min(I0(:)))/10
        L    = I0>th;
        
        if sum(L(:)==0) < sum(L(:)==1)
