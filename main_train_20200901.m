@@ -76,6 +76,9 @@ save(['./__trainedNetworks/rcn' sprintf('_%s_%s_%d_%s.mat', pram.experimentType,
 % 2021-03-22 tested the h2ax-tissue dataset for runtime errors. didn't test the accuray. 
 % 2021-03-23 tested the nuc-tissue dataset for runtime errors. didn't test the accuray. 
 % 2021-03-26 trained and analysed the results for h2ax-tissue. pram.th_prop was = 0.2. The results were bad. Now trying 0.9 
+%             => 0.9 worked well witl Nx=64. But thee scattered foci were not visible. so tryied Nx=128 to increse the receptive field
+% 2021-03-27  => Nx=128 did not improve the results. it was time consuming to train. so the training might have been off. But switching back to Nx=64. But going to resize the image by 0.5 to increse the receptive field
+%           
 
 %% validate networks 2021-03-20 still not cleaned up
 % load('./__trainedNetworks/rpn_32_12-Mar-2021_twoCh.mat')

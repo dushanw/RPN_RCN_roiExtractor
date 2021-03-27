@@ -7,15 +7,16 @@ function [I L] = readData(pram)
   In_imds       = imageDatastore(In_imds_dir ,'ReadFcn', @subf_readRescale5k );
   L_imds        = imageDatastore(Out_imds_dir,'ReadFcn', @subf_readAnnotation);
 
-  I.tr          = subf_normalize_tissue_to_1(In_imds.readall);
-  L.tr          = subf_dialate_labels       (L_imds.readall );
+  I.tr          = resizeAll(subf_normalize_tissue_to_1(In_imds.readall),pram);
+  L.tr          = resizeAll(subf_dialate_labels       (L_imds.readall ),pram);
   
   In_imds_dir   = fullfile('./Imds_test');
   Out_imds_dir  = fullfile('./Pxds_test');
   In_imds       = imageDatastore(In_imds_dir,'ReadFcn', @subf_readRescale5k );
   L_imds        = imageDatastore(Out_imds_dir,'ReadFcn',@subf_readAnnotation);
-  I.test        = subf_normalize_tissue_to_1(In_imds.readall);
-  L.test        = subf_dialate_labels       (L_imds.readall );
+  
+  I.test        = resizeAll(subf_normalize_tissue_to_1(In_imds.readall),pram);
+  L.test        = resizeAll(subf_dialate_labels       (L_imds.readall ),pram);
   
   % make file name stems for saving results
   for i = 1:length(In_imds.Files)         
@@ -23,6 +24,12 @@ function [I L] = readData(pram)
     I.testNames{i}  = In_imds.Files{i}(temp+1:end-4);
   end
  
+end
+
+function I = resizeAll(I,pram)
+  for i = 1:length(I)  
+    I{i} = imresize(I{i},pram.imreasizeFactor);     
+  end
 end
 
 function I = subf_normalize_tissue_to_1(I)

@@ -12,7 +12,6 @@ function pram = pram_init()
                                             %  'h2ax_wadduwage2018automated_fig5'}        
   pram.TrDataDir          = ['./_data/' pram.dataset '/'];
   pram.UseDataDir         = ['./_data/' pram.dataset '/'];
-  pram.imreasizeFactor    = 1;
   
   % experiment type and dataset dependent parameters
   switch pram.experimentType
@@ -32,9 +31,10 @@ function pram = pram_init()
           pram.runTissueSeg = 1;          
       otherwise
         pram.runTissueSeg   = 0;
-      end
+      end      
+      pram.imreasizeFactor= 0.5;
       pram.miniBatchSize  = 256;
-      pram.Nx             = 128;            % ?? 64 tried, now try 128
+      pram.Nx             = 16;             % ?? 64 tried,128tried, 64 with 0.5 rsf
       pram.Nc             = 1;
       pram.maxEpochs_rpn  = 10;             % 
       pram.maxEpochs_rcn  = 40;             % ???
