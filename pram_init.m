@@ -34,7 +34,7 @@ function pram = pram_init()
       end      
       pram.imreasizeFactor= 0.5;
       pram.miniBatchSize  = 256;
-      pram.Nx             = 16;             % ?? 64 tried,128tried, 64 with 0.5 rsf
+      pram.Nx             = 64;             % ?? 64 tried,128tried, 64 with 0.5 rsf
       pram.Nc             = 1;
       pram.maxEpochs_rpn  = 10;             % 
       pram.maxEpochs_rcn  = 40;             % ???
