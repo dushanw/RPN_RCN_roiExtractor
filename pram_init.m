@@ -12,7 +12,8 @@ function pram = pram_init()
                                             %  'h2ax_wadduwage2018automated_fig5'}        
   pram.TrDataDir          = ['./_data/' pram.dataset '/'];
   pram.UseDataDir         = ['./_data/' pram.dataset '/'];
-
+  pram.imreasizeFactor    = 1;
+  
   % experiment type and dataset dependent parameters
   switch pram.experimentType
     case 'nuc_tissue'      

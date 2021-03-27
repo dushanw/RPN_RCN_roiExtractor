@@ -145,10 +145,9 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       L_plot = single(L_proposal>th_prop);
       L_plot = L_plot + 2*L_now;
       L_plot(1,1) = 3;% to avoid trying to overlay empty array
-      imagesc(labeloverlay(I_plot/3,L_plot));axis image;
+      imagesc(labeloverlay([I_plot/3 L_proposal],[L_plot L_plot]));axis image;
       saveas(h,[resDir '/figs_rpn/' fileNameStem '_figs.fig']);
-      close(h)
-      
+      close(h)            
   end
   
   %% save results summary
