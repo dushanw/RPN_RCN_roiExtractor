@@ -145,9 +145,18 @@ function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
       L_plot = single(L_proposal>th_prop);
       L_plot = L_plot + 2*L_now;
       L_plot(1,1) = 3;% to avoid trying to overlay empty array
-      imagesc(labeloverlay([I_plot/3 L_proposal],[L_plot L_plot]));axis image;
+      imagesc(labeloverlay([I_plot/3],[L_plot]));axis image;
       saveas(h,[resDir '/figs_rpn/' fileNameStem '_figs.fig']);
       close(h)            
+                  
+      h = figure('WindowState','maximized');
+      imagesc(L_proposal);axis image;hold on;colorbar
+      plot(centroids_tp(:,1)    ,centroids_tp(:,2)    ,'+g','MarkerSize',30,'LineWidth',1);    
+      plot(centroids_fn(:,1)    ,centroids_fn(:,2)    ,'+r','MarkerSize',30,'LineWidth',1);
+      plot(centroids_fp(:,1)    ,centroids_fp(:,2)    ,'+w','MarkerSize',30,'LineWidth',1);    
+      plot(centroids_fn_rpn(:,1),centroids_fn_rpn(:,2),'+m','MarkerSize',30,'LineWidth',1);    
+      saveas(h,[resDir '/figs_rpn/' fileNameStem 'L_props_figs.fig']);
+      close(h)
   end
   
   %% save results summary
