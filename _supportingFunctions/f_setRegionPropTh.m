@@ -4,8 +4,10 @@
 function th_prop = f_setRegionPropTh(I_list,L_gt_list,net_rpn,pram)
 
   %% apply rpn network for all training images
-  for i=1:length(I_list)
+  for i=1:length(I_list)  
     i
+    L_gt_list{i}        = padarray(L_gt_list{i},[pram.Nx pram.Nx]);
+    I_list{i}           = padarray(I_list{i},[pram.Nx pram.Nx]);
     L_propProb_list{i}  = apply_proposal_net(net_rpn,I_list{i},pram.Nx);
   end
   
@@ -32,7 +34,7 @@ function th_prop = f_setRegionPropTh(I_list,L_gt_list,net_rpn,pram)
       N_FP(k)               = N_FP(k) + sum(prop_tpIf1_fpIf0 == 0);      
     end
   end
-  % [N_FN N_TP N_FP N_FN+N_TP]
+  [N_FN N_TP N_FP N_FN+N_TP]
   
   %% thereshold value selection
   inds_minNFN = find(N_FN == min(N_FN));
