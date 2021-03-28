@@ -35,9 +35,8 @@ function [centr_proposals,...
 
     % temp_check_sum = [length(gt_ind_fn)+length(prop_ind_tp) size(centr_gt,1)];
   else
-    prop_tpIf1_fpIf0    = zeros(size(Centroids,1),1);
+    prop_tpIf1_fpIf0    = zeros(size(centr_proposals,1),1);
     centroids_fn        = centr_gt(gt_ind_fn,:);
-    xx = 1
   end      
 
 
