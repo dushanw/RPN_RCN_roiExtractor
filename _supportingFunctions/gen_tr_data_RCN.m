@@ -1,5 +1,5 @@
 
-function [XTr, YTr, XVal, YVal] = gen_tr_data_RCN(I_all,L_all,net_RPN,pram)
+function [XTr, YTr, XVal, YVal] = gen_tr_data_RCN(I_all,L_all,net_rpn,pram)
 
   Nx            = pram.Nx;
 
@@ -20,7 +20,7 @@ function [XTr, YTr, XVal, YVal] = gen_tr_data_RCN(I_all,L_all,net_RPN,pram)
         Area_tissue_now = -1;
       end
       
-      L_proposal                  = apply_proposal_net(net_RPN,I_now,Nx);
+      L_proposal                  = apply_proposal_net(net_rpn,I_now,Nx);
       L_proposal(find(L_fg==0))   = 0;
       % L         = imextendedmax(L_proposal,0.01); % anoter way is to use the extended maxima transform 
       [I_proposals_now,...
