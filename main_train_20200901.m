@@ -56,11 +56,11 @@ save(['./__trainedNetworks/rpn1' sprintf('_%s_%s_%d_%s.mat',pram.experimentType,
                                                             pram.Nx,date)],'net_rpn','tr_info');
 
 %% train RCN                    
-th_prop                 = f_setRegionPropTh(I_list,L_gt_list,net_rpn,pram);
-
+pram.th_prop            = f_setRegionPropTh(I.tr,L.tr,net_rpn,pram);
+            
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RCN(I.tr,L.tr,net_rpn,pram);
-[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr );
-[          XVal, YVal]  = f_augmentDataSet(XVal, YVal);
+%[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr ,1);
+%[          XVal, YVal]  = f_augmentDataSet(XVal, YVal,1);
 
 lgraph_rcn              = gen_RCN(net_rpn);
 pram.maxEpochs          = pram.maxEpochs_rcn;

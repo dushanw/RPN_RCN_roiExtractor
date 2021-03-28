@@ -32,12 +32,12 @@ function pram = pram_init()
       otherwise
         pram.runTissueSeg   = 0;
       end      
-      pram.imreasizeFactor= 0.5;
+      pram.imreasizeFactor= 1;              % 0.5 with Nx=64 tried (03-28-2021). See if 1 can beat it
       pram.miniBatchSize  = 256;
       pram.Nx             = 64;             % ?? 64 tried,128tried, 64 with 0.5 rsf
       pram.Nc             = 1;
       pram.maxEpochs_rpn  = 10;             % 
-      pram.maxEpochs_rcn  = 40;             % ???
+      pram.maxEpochs_rcn  = 8;              % ???
       pram.th_prop        = 0.9;            % ??
       pram.gtDistTh       = 10;             % ??? distant threshold for postive labeling using distant between the proposal 
                                             % centroids vs gt centroids
