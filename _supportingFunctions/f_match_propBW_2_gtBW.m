@@ -37,6 +37,7 @@ function [centr_proposals,...
   else
     prop_tpIf1_fpIf0    = zeros(size(Centroids,1),1);
     centroids_fn        = centr_gt(gt_ind_fn,:);
+    xx = 1
   end      
 
 
