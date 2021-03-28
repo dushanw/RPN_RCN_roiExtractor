@@ -39,7 +39,4 @@ function [centr_proposals,...
     centroids_fn        = centr_gt(gt_ind_fn,:);
   end      
 
-
-
-
 end
