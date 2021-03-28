@@ -3,7 +3,7 @@
 
 function [centr_proposals,...
           prop_tpIf1_fpIf0,...
-          centroids_fn] = f_match_propBW_2_gtBW(L_prop,L_gt)
+          centroids_fn] = f_match_propBW_2_gtBW(L_prop,L_gt,pram)
 
   stats_proposals   = regionprops(L_prop,'Centroid');
   stats_gt          = regionprops(L_gt  ,'Centroid');
