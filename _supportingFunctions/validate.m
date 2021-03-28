@@ -1,5 +1,5 @@
 
-function validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
+function results_table = validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram)
   
   resDir        = sprintf('./results/%s/%s_%s_%d/',...
                                      date,...             
