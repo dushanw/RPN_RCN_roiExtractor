@@ -12,7 +12,7 @@ function th_prop = f_setRegionPropTh(I_list,L_gt_list,net_rpn,pram,slectionsMeth
   end
   
   %% theresholds values to be selected from
-  d_th    = 0.1;
+  d_th    = 0.01;
   th_list = d_th:d_th:1-d_th;  
   
   %% calculate FN, TP, and FP rates for each threshold value
