@@ -27,8 +27,8 @@ cd(of)
 % imagesc(imtile(I.tr{randi(length(I.tr))}));axis image;colorbar
 
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RPN(I.tr,L.tr,pram);
-[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr );
-[          XVal, YVal]  = f_augmentDataSet(XVal, YVal);
+%[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr );
+%[          XVal, YVal]  = f_augmentDataSet(XVal, YVal);
 % imagesc(imtile(XVal(:,:,:,randi(size(XVal,4),1,100))));axis image;colorbar
 
 lgraph_rpn              = gen_RPN(pram);
@@ -42,9 +42,10 @@ save(['./__trainedNetworks/rpn0' sprintf('_%s_%s_%d_%s.mat',pram.experimentType,
                                                             pram.Nx,date)],'net_rpn','tr_info');
 
 %% retrain RPN for cell spliting
+pram.th_prop            = f_setRegionPropTh(I.tr,L.tr,net_rpn,pram);
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RPN_refine(I.tr,L.tr,net_rpn,pram);
-[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr );
-[          XVal, YVal]  = f_augmentDataSet(XVal, YVal);
+% [XTr, YTr            ]  = f_augmentDataSet(XTr , YTr );
+% [          XVal, YVal]  = f_augmentDataSet(XVal, YVal);
 
 pram.maxEpochs          = pram.maxEpochs_rpn;
 pram.dropPeriod         = round(pram.maxEpochs/4);

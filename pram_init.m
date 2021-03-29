@@ -36,9 +36,9 @@ function pram = pram_init()
       pram.miniBatchSize  = 256;
       pram.Nx             = 64;             % ?? 64 tried,128tried, 64 with 0.5 rsf
       pram.Nc             = 1;
-      pram.maxEpochs_rpn  = 10;             % 
+      pram.maxEpochs_rpn  = 12;             % 
       pram.maxEpochs_rcn  = 8;              % ???
-      pram.th_prop        = 0.9;            % ??
+      pram.th_prop        = 0.5;            % ?? 0.9 works well, but start with 0.5 to standarise before th selection
       pram.gtDistTh       = 10;             % ??? distant threshold for postive labeling using distant between the proposal 
                                             % centroids vs gt centroids
     case 'h2ax_cells'      
