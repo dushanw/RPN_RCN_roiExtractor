@@ -20,7 +20,8 @@ function pram = pram_init()
       pram.miniBatchSize  = 256;
       pram.Nx             = 64;
       pram.Nc             = 1;
-      pram.maxEpochs_rpn  = 20;
+      pram.maxEpochs_rpn0 = 20;
+      pram.maxEpochs_rpn1 = 20;
       pram.maxEpochs_rcn  = 10; 
       pram.th_prop        = 0.2;
       pram.gtDistTh       = 10;             % distant threshold for postive labeling using distant between the proposal 
@@ -46,13 +47,14 @@ function pram = pram_init()
       pram.miniBatchSize  = 256;
       pram.Nx             = 32;
       pram.Nc             = 2;
-      pram.maxEpochs_rpn  = 30;             % ??
+      pram.maxEpochs_rpn0 = 30;             % ??
+      pram.maxEpochs_rpn1 = 30;             % ??
       pram.maxEpochs_rcn  = 10;             % ???
       pram.th_prop        = 0.2;            % ???  
       pram.gtDistTh       = 5;              % distant threshold for postive labeling using distant between the proposal 
                                             % centroids vs gt centroids
   end
-  pram.maxEpochs          = pram.maxEpochs_rpn;
+  pram.maxEpochs          = pram.maxEpochs_rpn0;
   
   % network paramters
   pram.ValDataRatio       = 0.05;           % ratio of training data used for validation
