@@ -34,16 +34,17 @@ function th_prop = f_setRegionPropTh(I_list,L_gt_list,net_rpn,pram,slectionsMeth
       N_FP(k)               = N_FP(k) + sum(prop_tpIf1_fpIf0 == 0);      
     end
   end
-  [N_FN N_TP N_FP N_FN+N_TP]
+  [N_FN N_TP N_FP N_FN+N_TP]      
+  Accuracy    = N_TP./(N_TP+N_FN+N_FP)        
+  Recall      = N_TP./(N_TP+N_FN)
+  Precision   = N_TP./(N_TP+N_FP)
   
   %% thereshold value selection
   switch slectionsMethod
     case 'accuracy'
-      Accuracy    = N_TP./(N_TP+N_FN+N_FP);
       inds_max    = find(Accuracy == max(Accuracy));
       th_prop     = th_list(inds_max(end));
     case 'recall'
-      Recall      = N_TP./(N_TP+N_FN);
       inds_max    = find(Recall == max(Recall));
       th_prop     = th_list(inds_max(end));
 %       inds_minNFN = find(N_FN == min(N_FN));
