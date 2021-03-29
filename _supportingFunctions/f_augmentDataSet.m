@@ -9,9 +9,9 @@ function [X Y] = f_augmentDataSet(X,Y,onlyPos)
     Y0      = Y;
   end  
   
-  X90       = imrotate(X, 90);
-  X180      = imrotate(X,180);
-  X270      = imrotate(X,270);
+  X90       = imrotate(X0, 90);
+  X180      = imrotate(X0,180);
+  X270      = imrotate(X0,270);
   
   X0_flp    = flip(X0);
   X90_flp   = flip(X90);
