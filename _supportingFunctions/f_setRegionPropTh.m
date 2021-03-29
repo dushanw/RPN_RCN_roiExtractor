@@ -1,7 +1,7 @@
 % 20210328 by Dushan N. Wadduwage
 % A function to set the region selection threshold for RPN output map
 
-function th_prop = f_setRegionPropTh(I_list,L_gt_list,net_rpn,pram)
+function th_prop = f_setRegionPropTh(I_list,L_gt_list,net_rpn,pram,slectionsMethod)
 
   %% apply rpn network for all training images
   for i=1:length(I_list)  
@@ -37,9 +37,19 @@ function th_prop = f_setRegionPropTh(I_list,L_gt_list,net_rpn,pram)
   [N_FN N_TP N_FP N_FN+N_TP]
   
   %% thereshold value selection
-  inds_minNFN = find(N_FN == min(N_FN));
-  [temp ind]  = min(N_FP(inds_minNFN));
-  th_prop     = th_list(inds_minNFN(ind));
+  switch slectionsMethod
+    case 'accuracy'
+      Accuracy    = N_TP./(N_TP+N_FN+N_FP);
+      inds_max    = find(Accuracy == max(Accuracy));
+      th_prop     = th_list(inds_max(end));
+    case 'recall'
+      Recall      = N_TP./(N_TP+N_FN);
+      inds_max    = find(Recall == max(Recall));
+      th_prop     = th_list(inds_max(end));
+%       inds_minNFN = find(N_FN == min(N_FN));
+%       [temp ind]  = min(N_FP(inds_minNFN));
+%       th_prop     = th_list(inds_minNFN(ind));
+  end
 end
 
 
