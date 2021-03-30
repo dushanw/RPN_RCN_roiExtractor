@@ -3,8 +3,8 @@
 
 % datapaths
 function pram = pram_init()
-  pram.experimentType     = 'h2ax_tissue';   % {'nuc_tissue','h2ax_tissue','h2ax_cells'}
-  pram.dataset            = 'h2ax_wadduwage2018automated_fig4';
+  pram.experimentType     = 'h2ax_cells';   % {'nuc_tissue','h2ax_tissue','h2ax_cells'}
+  pram.dataset            = 'h2ax_cells';
                                             % {'nuc_tissue',
                                             %  'h2ax_tissue',
                                             %  'h2ax_cells',
@@ -17,15 +17,15 @@ function pram = pram_init()
   switch pram.experimentType
     case 'nuc_tissue'      
       pram.runTissueSeg   = 0;              % tissue segmentation
+      pram.imreasizeFactor= 1;
       pram.miniBatchSize  = 256;
       pram.Nx             = 64;
       pram.Nc             = 1;
       pram.maxEpochs_rpn0 = 20;
       pram.maxEpochs_rpn1 = 20;
       pram.maxEpochs_rcn  = 10; 
-      pram.th_prop        = 0.2;
-      pram.gtDistTh       = 10;             % distant threshold for postive labeling using distant between the proposal 
-                                            % centroids vs gt centroids
+      pram.th_prop        = 0.5;            % if was 0.2; but trying 0.5 to stadarize. 
+      pram.gtDistTh       = 10;             % distant threshold for postive labeling using distant between the proposal centroids vs gt centroids
     case 'h2ax_tissue'
       switch pram.dataset
         case 'h2ax_tissue'                  % only 2020 h2ax_tissue has better sbr on tissue
@@ -33,28 +33,28 @@ function pram = pram_init()
       otherwise
         pram.runTissueSeg   = 0;
       end      
-      pram.imreasizeFactor= 0.5;            % 0.5 with Nx=64 tried (03-28-2021). See if 1 can beat. it-could not still missing diffused foci(29-03-2021)
+      pram.imreasizeFactor= 0.5;            % 0.5 with Nx=64 tried (03-28-2021). See if 1 can beat. it-could not; still missing diffused foci(29-03-2021); stick to 0.5(29-03-2021 results)
       pram.miniBatchSize  = 256;
-      pram.Nx             = 64;             % ?? 64 tried-missing diffused foci every try, 
+      pram.Nx             = 64;             % 64 tried-missing diffused foci every try, 
                                             % 128tried-too slow, 
                                             % 64 with 0.5 rsf-works-ok
       pram.Nc             = 1;
       pram.maxEpochs_rpn0 = 12;             % 
       pram.maxEpochs_rpn1 = 12;             % 
-      pram.maxEpochs_rcn  = 8;              % ???
-      pram.th_prop        = 0.5;            % ?? 0.9 works well, but start with 0.5 to standarise before th selection; 0.5 works fine with autoselect
-      pram.gtDistTh       = 10;             % ??? distant threshold for postive labeling using distant between the proposal centroids vs gt centroids
+      pram.maxEpochs_rcn  = 24;             % 
+      pram.th_prop        = 0.5;            % 0.9 works well, but start with 0.5 to standarise before th selection; 0.5 works fine with autoselect
+      pram.gtDistTh       = 10;             % distant threshold for postive labeling using distant between the proposal centroids vs gt centroids
     case 'h2ax_cells'      
       pram.runTissueSeg   = 0;
-      pram.miniBatchSize  = 256;
+      pram.imreasizeFactor= 1;
+      pram.miniBatchSize  = 512;
       pram.Nx             = 32;
       pram.Nc             = 2;
       pram.maxEpochs_rpn0 = 30;             % ??
       pram.maxEpochs_rpn1 = 30;             % ??
       pram.maxEpochs_rcn  = 10;             % ???
-      pram.th_prop        = 0.2;            % ???  
-      pram.gtDistTh       = 5;              % distant threshold for postive labeling using distant between the proposal 
-                                            % centroids vs gt centroids
+      pram.th_prop        = 0.5;            % ??? it was 0.2; but trying 0.5 to standarize 
+      pram.gtDistTh       = 5;              % distant threshold for postive labeling using distant between the proposal centroids vs gt centroids
   end
   pram.maxEpochs          = pram.maxEpochs_rpn0;
   
