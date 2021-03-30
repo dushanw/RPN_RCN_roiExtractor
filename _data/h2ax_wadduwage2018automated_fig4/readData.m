@@ -72,7 +72,7 @@ function L = subf_readAnnotation(filename)
          I0 = mean(I0,3);
        end
        % th = (max(I0(:)) + min(I0(:)))/2 ; % half therhold is not ideal it meges some objects together
-       th   = min(I0(:)) + (max(I0(:)) - min(I0(:)))/10
+       th   = min(I0(:)) + (max(I0(:)) - min(I0(:)))/10;
        L    = I0>th;
        
        if sum(L(:)==0) < sum(L(:)==1)

@@ -35,9 +35,9 @@ function th_prop = f_setRegionPropTh(I_list,L_gt_list,net_rpn,pram,slectionsMeth
     end
   end
   [N_FN N_TP N_FP N_FN+N_TP]      
-  Accuracy    = N_TP./(N_TP+N_FN+N_FP)        
-  Recall      = N_TP./(N_TP+N_FN)
-  Precision   = N_TP./(N_TP+N_FP)
+  Accuracy    = N_TP./(N_TP+N_FN+N_FP);        
+  Recall      = N_TP./(N_TP+N_FN);
+  Precision   = N_TP./(N_TP+N_FP);
   
   %% thereshold value selection
   switch slectionsMethod

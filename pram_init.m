@@ -33,14 +33,16 @@ function pram = pram_init()
       otherwise
         pram.runTissueSeg   = 0;
       end      
-      pram.imreasizeFactor= 1;              % 0.5 with Nx=64 tried (03-28-2021). See if 1 can beat it
+      pram.imreasizeFactor= 0.5;            % 0.5 with Nx=64 tried (03-28-2021). See if 1 can beat. it-could not still missing diffused foci(29-03-2021)
       pram.miniBatchSize  = 256;
-      pram.Nx             = 64;             % ?? 64 tried,128tried, 64 with 0.5 rsf
+      pram.Nx             = 64;             % ?? 64 tried-missing diffused foci every try, 
+                                            % 128tried-too slow, 
+                                            % 64 with 0.5 rsf-works-ok
       pram.Nc             = 1;
       pram.maxEpochs_rpn0 = 12;             % 
       pram.maxEpochs_rpn1 = 12;             % 
       pram.maxEpochs_rcn  = 8;              % ???
-      pram.th_prop        = 0.5;            % ?? 0.9 works well, but start with 0.5 to standarise before th selection
+      pram.th_prop        = 0.5;            % ?? 0.9 works well, but start with 0.5 to standarise before th selection; 0.5 works fine with autoselect
       pram.gtDistTh       = 10;             % ??? distant threshold for postive labeling using distant between the proposal centroids vs gt centroids
     case 'h2ax_cells'      
       pram.runTissueSeg   = 0;

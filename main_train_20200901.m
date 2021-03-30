@@ -17,7 +17,7 @@
 %% 
 clear all;clc;
 addpath('./_supportingFunctions/')
-mkdir('./__trainedNetworks/')
+mkdir(['./__trainedNetworks/' date '/'])
 pram                    = pram_init(); % set paramters here
 
 %% train RPN                    
@@ -27,12 +27,12 @@ cd(of)
 % imagesc(imtile(I.tr{randi(length(I.tr))}));axis image;colorbar
 
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RPN(I.tr,L.tr,pram);
-%[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr );
-%[          XVal, YVal]  = f_augmentDataSet(XVal, YVal);
+[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr ,0);
+[          XVal, YVal]  = f_augmentDataSet(XVal, YVal,0);
 % imagesc(imtile(XVal(:,:,:,randi(size(XVal,4),1,100))));axis image;colorbar
 
 lgraph_rpn              = gen_RPN(pram);
-pram.maxEpochs          = pram.maxEpochs_rpn;
+pram.maxEpochs          = pram.maxEpochs_rpn0;
 pram.dropPeriod         = round(pram.maxEpochs/4);
 options                 = set_training_options(pram,XVal,YVal);
 
@@ -41,11 +41,11 @@ save(['./__trainedNetworks/rpn0' sprintf('_%s_%s_%d_%s.mat',pram.experimentType,
                                                             pram.dataset,...
                                                             pram.Nx,date)],'net_rpn','tr_info');
 
-%% retrain RPN for cell spliting
-% pram.th_prop            = f_setRegionPropTh(I.tr,L.tr,net_rpn,pram);
+%% retrain RPN for cell spliting; skip for h2ax-tissue
+% pram.th_prop            = f_setRegionPropTh(I.tr,L.tr,net_rpn,pram,'accuracy');
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RPN_refine(I.tr,L.tr,net_rpn,pram);
-% [XTr, YTr            ]  = f_augmentDataSet(XTr , YTr );
-% [          XVal, YVal]  = f_augmentDataSet(XVal, YVal);
+[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr ,1);
+[          XVal, YVal]  = f_augmentDataSet(XVal, YVal,1);
 
 pram.maxEpochs          = pram.maxEpochs_rpn;
 pram.dropPeriod         = round(pram.maxEpochs/4);
@@ -54,14 +54,13 @@ options                 = set_training_options(pram,XVal,YVal);
 [net_rpn, tr_info]      = trainNetwork(XTr,YTr,layerGraph(net_rpn),options);
 save(['./__trainedNetworks/rpn1' sprintf('_%s_%s_%d_%s.mat',pram.experimentType,...
                                                             pram.dataset,...
-                                                            pram.Nx,date)],'net_rpn','tr_info');
+                                                            pram.Nx,date)],'net_rpn','tr_info'); 
 
 %% train RCN                    
-pram.th_prop            = f_setRegionPropTh(I.tr,L.tr,net_rpn,pram);
-            
+pram.th_prop            = f_setRegionPropTh(I.tr,L.tr,net_rpn,pram,'recall');
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RCN(I.tr,L.tr,net_rpn,pram);
-%[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr ,1);
-%[          XVal, YVal]  = f_augmentDataSet(XVal, YVal,1);
+[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr ,0);
+[          XVal, YVal]  = f_augmentDataSet(XVal, YVal,0);
 
 lgraph_rcn              = gen_RCN(net_rpn);
 pram.maxEpochs          = pram.maxEpochs_rcn;
@@ -70,10 +69,11 @@ pram.dropPeriod         = round(pram.maxEpochs/4);
 options                 = set_training_options(pram,XVal,YVal);
 
 [net_rcn, tr_info]      = trainNetwork(XTr,YTr,lgraph_rcn,options);
-save(['./__trainedNetworks/rcn' sprintf('_%s_%s_%d_%s.mat', pram.experimentType,...
+save(['./__trainedNetworks/' date 'rcn' sprintf('_%s_%s_%d_%s.mat', pram.experimentType,...
                                                             pram.dataset,...
                                                             pram.Nx,date)],'net_rcn','tr_info');
 
+validate(I.test,L.test,I.testNames,net_rpn,net_rcn,pram)
 
 % 2021-03-20 tested the h2ax-cell dataset for runtime errors. didn't test the accuray. 
 % 2021-03-22 tested the h2ax-tissue dataset for runtime errors. didn't test the accuray. 
@@ -88,10 +88,5 @@ save(['./__trainedNetworks/rcn' sprintf('_%s_%s_%d_%s.mat', pram.experimentType,
 % load('./__trainedNetworks/rcn_32_12-Mar-2021_twoCh.mat')
 
 validate(I.test,L.test,I.testNames,net_rpn,net_rcn,pram)
-
-
-
-
-
 
 
