@@ -3,13 +3,14 @@
 
 % datapaths
 function pram = pram_init()
-  pram.experimentType     = 'h2ax_cells';   % {'nuc_tissue','h2ax_tissue','h2ax_cells'}
+  pram.experimentType     = 'h2ax_cells';   % {'nuc_tissue','h2ax_tissue','h2ax_cells','bacteria_qpm'}
   pram.dataset            = 'h2ax_cells';
                                             % {'nuc_tissue',
                                             %  'h2ax_tissue',
                                             %  'h2ax_cells',
                                             %  'h2ax_wadduwage2018automated_fig4',
-                                            %  'h2ax_wadduwage2018automated_fig5'}        
+                                            %  'h2ax_wadduwage2018automated_fig5',
+                                            %  'bacteria_qpm'}
   pram.TrDataDir          = ['./_data/' pram.dataset '/'];
   pram.UseDataDir         = ['./_data/' pram.dataset '/'];
   
@@ -50,11 +51,21 @@ function pram = pram_init()
       pram.miniBatchSize  = 512;
       pram.Nx             = 32;
       pram.Nc             = 2;
-      pram.maxEpochs_rpn0 = 30;             % ??
-      pram.maxEpochs_rpn1 = 30;             % ??
-      pram.maxEpochs_rcn  = 10;             % ???
+      pram.Nclasses       = 2;              % classes here are fg,bg
+      pram.maxEpochs_rpn0 = 12;             % it was 30 before; now trying 12 with augmentation-12 seems to be ok
+      pram.maxEpochs_rpn1 = 12;             % 
+      pram.maxEpochs_rcn  = 12;             % ???
       pram.th_prop        = 0.5;            % ??? it was 0.2; but trying 0.5 to standarize 
       pram.gtDistTh       = 5;              % distant threshold for postive labeling using distant between the proposal centroids vs gt centroids
+    case 'bacteria_qpm'      
+      pram.runTissueSeg   = 0;
+      pram.imreasizeFactor= 0.64;           % ???
+      pram.miniBatchSize  = 256;            % ???
+      pram.Nx             = 64;             % ???
+      pram.Nc             = 1;
+      pram.Nclasses       = 7;              % classes here are backteria classes see readdata in bacteeria dataset
+      pram.maxEpochs_rpn0 = 12;             % just for the rest of the code (rpn is not used here)
+      pram.maxEpochs_rcn  = 24;             % 
   end
   pram.maxEpochs          = pram.maxEpochs_rpn0;
   

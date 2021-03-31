@@ -36,12 +36,14 @@ pram.maxEpochs          = pram.maxEpochs_rpn0;
 pram.dropPeriod         = round(pram.maxEpochs/4);
 options                 = set_training_options(pram,XVal,YVal);
 
-[net_rpn, tr_info]      = trainNetwork(XTr,YTr,lgraph_rpn,options);% 30mins for h2ax-tissue-fig4
+[net_rpn, tr_info]      = trainNetwork(XTr,YTr,lgraph_rpn,options);% 30mins for h2ax-tissue-fig4,  1.22hr for h2ax-cells
 save(['./__trainedNetworks/' date '/' 'rpn0' sprintf('_%s_%s_%d_%s.mat',pram.experimentType,...
                                                             pram.dataset,...
                                                             pram.Nx,date)],'net_rpn','tr_info');
 
-%% retrain RPN for cell spliting % skip for h2ax-tissue
+%% 
+%  below section is skiped for h2ax-tissue and h2ax-cells 
+%% retrain RPN for cell spliting 
 % pram.th_prop            = f_setRegionPropTh(I.tr,L.tr,net_rpn,pram,'accuracy');
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RPN_refine(I.tr,L.tr,net_rpn,pram);
 [XTr, YTr            ]  = f_augmentDataSet(XTr , YTr ,1);
@@ -64,13 +66,14 @@ pram.th_prop            = f_setRegionPropTh(I.tr,L.tr,net_rpn,pram,'recall');
 
 lgraph_rcn              = gen_RCN(net_rpn);
 pram.maxEpochs          = pram.maxEpochs_rcn;
-pram.initLearningRate   = 0.1;      % ??? still needed? 
+pram.initLearningRate   = 1;      % ??? still needed? 
 pram.dropPeriod         = round(pram.maxEpochs/4);
 options                 = set_training_options(pram,XVal,YVal);
 
-tic
-[net_rcn, tr_info]      = trainNetwork(XTr,YTr,lgraph_rcn,options);
-toc
+[net_rcn, tr_info]      = trainNetwork(XTr,YTr,lgraph_rcn,options);% 18mins for h2ax-cells
+% validation accuracy 85.08% (2021-03-30 at 7.20pm)
+% validation accuracy 85.35% (2021-03-31 at 11am), same training 
+% (2021-03-31 at 11am) training with nuc mask removed foci labels
 save(['./__trainedNetworks/' date '/' 'rcn' sprintf('_%s_%s_%d_%s.mat', pram.experimentType,...
                                                             pram.dataset,...
                                                             pram.Nx,date)],'net_rcn','tr_info');
