@@ -86,18 +86,35 @@ function results_table = validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram
        centroids ...
        Y_gt_now ...
        centroids_fn_rpn]= genRegionProposals(L_proposal>th_prop,L_now,I_now,pram);
-
+     
       if ~isempty(I_proposals_now)
         [YPred,scores]  = classify(net_rcn,I_proposals_now);
       else
         YPred           = [];
       end
-       
+            
+      %% remove objects in the boundary (withon a 2*Nx range)
+      limXs       = 2*Nx;
+      limYs       = 2*Nx;
+      limXe       = size(I_now,2) - 2*Nx;
+      limYe       = size(I_now,1) - 2*Nx;      
+      
+      idx_valid         = centroids(:,1) >= limXs & centroids(:,2) >= limYs & ...
+                          centroids(:,1) <= limXe & centroids(:,2) <= limYe;
+      centroids         = centroids(idx_valid,:);
+      YPred             = YPred(idx_valid);
+      Y_gt_now          = Y_gt_now(idx_valid);
+      
+      idx_valid         = centroids_fn_rpn(:,1) >= limXs & centroids_fn_rpn(:,2) >= limYs & ...
+                          centroids_fn_rpn(:,1) <= limXe & centroids_fn_rpn(:,2) <= limYe;
+      centroids_fn_rpn  = centroids_fn_rpn(idx_valid,:);
+      
       %% analyse results
       centroids_tp      = centroids(find(YPred=='1' & Y_gt_now==1),:);
       centroids_fp      = centroids(find(YPred=='1' & Y_gt_now==0),:);
       centroids_fn      = centroids(find(YPred=='0' & Y_gt_now==1),:);
-      
+      centroids_fn_rpn  = centroids_fn_rpn;
+     
       % counting restuls      
       Filename{i,1}     = fileNameStem;
       Area_tissue(i,1)  = Area_tissue_now;
