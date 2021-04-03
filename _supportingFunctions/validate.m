@@ -94,10 +94,10 @@ function results_table = validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram
       end
             
       %% remove objects in the boundary (withon a 2*Nx range)
-      limXs       = 2*Nx;
-      limYs       = 2*Nx;
-      limXe       = size(I_now,2) - 2*Nx;
-      limYe       = size(I_now,1) - 2*Nx;      
+      limXs       = 1.5*Nx;
+      limYs       = 1.5*Nx;
+      limXe       = size(I_now,2) - 1.5*Nx;
+      limYe       = size(I_now,1) - 1.5*Nx;
       
       if ~isempty(centroids)
         idx_valid         = centroids(:,1) >= limXs & centroids(:,2) >= limYs & ...
