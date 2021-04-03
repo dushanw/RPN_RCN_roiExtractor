@@ -99,16 +99,20 @@ function results_table = validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram
       limXe       = size(I_now,2) - 2*Nx;
       limYe       = size(I_now,1) - 2*Nx;      
       
-      idx_valid         = centroids(:,1) >= limXs & centroids(:,2) >= limYs & ...
-                          centroids(:,1) <= limXe & centroids(:,2) <= limYe;
-      centroids         = centroids(idx_valid,:);
-      YPred             = YPred(idx_valid);
-      Y_gt_now          = Y_gt_now(idx_valid);
-      
-      idx_valid         = centroids_fn_rpn(:,1) >= limXs & centroids_fn_rpn(:,2) >= limYs & ...
-                          centroids_fn_rpn(:,1) <= limXe & centroids_fn_rpn(:,2) <= limYe;
-      centroids_fn_rpn  = centroids_fn_rpn(idx_valid,:);
-      
+      if ~isempty(centroids)
+        idx_valid         = centroids(:,1) >= limXs & centroids(:,2) >= limYs & ...
+                            centroids(:,1) <= limXe & centroids(:,2) <= limYe;
+        centroids         = centroids(idx_valid,:);
+        YPred             = YPred(idx_valid);
+        Y_gt_now          = Y_gt_now(idx_valid);
+      end
+            
+      if ~isempty(centroids_fn_rpn)
+        idx_valid         = centroids_fn_rpn(:,1) >= limXs & centroids_fn_rpn(:,2) >= limYs & ...
+                            centroids_fn_rpn(:,1) <= limXe & centroids_fn_rpn(:,2) <= limYe;
+        centroids_fn_rpn  = centroids_fn_rpn(idx_valid,:);
+      end
+        
       %% analyse results
       centroids_tp      = centroids(find(YPred=='1' & Y_gt_now==1),:);
       centroids_fp      = centroids(find(YPred=='1' & Y_gt_now==0),:);
