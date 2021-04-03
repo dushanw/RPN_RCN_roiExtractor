@@ -46,10 +46,10 @@ save(['./__trainedNetworks/' date '/' 'rpn0' sprintf('_%s_%s_%d_%s.mat',pram.exp
 %% retrain RPN for cell spliting 
 % pram.th_prop            = f_setRegionPropTh(I.tr,L.tr,net_rpn,pram,'accuracy');
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RPN_refine(I.tr,L.tr,net_rpn,pram);
-[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr ,1);
-[          XVal, YVal]  = f_augmentDataSet(XVal, YVal,1);
+[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr ,0);
+[          XVal, YVal]  = f_augmentDataSet(XVal, YVal,0);
 
-pram.maxEpochs          = pram.maxEpochs_rpn;
+pram.maxEpochs          = pram.maxEpochs_rpn1;
 pram.dropPeriod         = round(pram.maxEpochs/4);
 options                 = set_training_options(pram,XVal,YVal);
 
@@ -61,19 +61,22 @@ save(['./__trainedNetworks/rpn1' sprintf('_%s_%s_%d_%s.mat',pram.experimentType,
 %% train RCN                    
 pram.th_prop            = f_setRegionPropTh(I.tr,L.tr,net_rpn,pram,'recall');
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RCN(I.tr,L.tr,net_rpn,pram);
+size(YTr)
 [XTr, YTr            ]  = f_augmentDataSet(XTr , YTr ,0);
 [          XVal, YVal]  = f_augmentDataSet(XVal, YVal,0);
+size(YTr)
 
 lgraph_rcn              = gen_RCN(net_rpn);
 pram.maxEpochs          = pram.maxEpochs_rcn;
-pram.initLearningRate   = 1;      % ??? still needed? 
-pram.dropPeriod         = round(pram.maxEpochs/4);
+pram.initLearningRate   = 0.1;      % ??? still needed? 
+pram.dropPeriod         = round(pram.maxEpochs/2);
 options                 = set_training_options(pram,XVal,YVal);
 
 [net_rcn, tr_info]      = trainNetwork(XTr,YTr,lgraph_rcn,options);% 18mins for h2ax-cells
 % validation accuracy 85.08% (2021-03-30 at 7.20pm)
 % validation accuracy 85.35% (2021-03-31 at 11am), same training 
-% (2021-03-31 at 11am) training with nuc mask removed foci labels
+% validation accuracy 82.33% (2021-03-31 at 3.15pm) training with nuc mask removed foci labels
+% validation accuracy 81.51% (2021-03-31 at 4.00pm) 24iter 2x. training with nuc mask removed foci labels
 save(['./__trainedNetworks/' date '/' 'rcn' sprintf('_%s_%s_%d_%s.mat', pram.experimentType,...
                                                             pram.dataset,...
                                                             pram.Nx,date)],'net_rcn','tr_info');
