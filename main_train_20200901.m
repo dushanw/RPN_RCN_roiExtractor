@@ -46,8 +46,8 @@ save(['./__trainedNetworks/' date '/' 'rpn0' sprintf('_%s_%s_%d_%s.mat',pram.exp
 %% retrain RPN for cell spliting 
 % pram.th_prop            = f_setRegionPropTh(I.tr,L.tr,net_rpn,pram,'accuracy');
 [XTr, YTr, XVal, YVal]  = gen_tr_data_RPN_refine(I.tr,L.tr,net_rpn,pram);
-[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr ,0);
-[          XVal, YVal]  = f_augmentDataSet(XVal, YVal,0);
+[XTr, YTr            ]  = f_augmentDataSet(XTr , YTr ,1);
+[          XVal, YVal]  = f_augmentDataSet(XVal, YVal,1);
 
 pram.maxEpochs          = pram.maxEpochs_rpn1;
 pram.dropPeriod         = round(pram.maxEpochs/4);
