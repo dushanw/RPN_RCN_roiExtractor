@@ -3,8 +3,8 @@
 
 % datapaths
 function pram = pram_init()
-  pram.experimentType     = 'nuc_tissue';   % {'nuc_tissue','h2ax_tissue','h2ax_cells','bacteria_qpm'}
-  pram.dataset            = 'nuc_tissue';
+  pram.experimentType     = 'bacteria_qpm'; % {'nuc_tissue','h2ax_tissue','h2ax_cells','bacteria_qpm'}
+  pram.dataset            = 'bacteria_qpm';
                                             % {'nuc_tissue',
                                             %  'h2ax_tissue',
                                             %  'h2ax_cells',
@@ -23,7 +23,7 @@ function pram = pram_init()
       pram.Nx             = 64;
       pram.Nc             = 1;
       pram.maxEpochs_rpn0 = 5;              % 20 takes 14hrs with aug0. switching to 5
-      pram.maxEpochs_rpn1 = 20;
+      pram.maxEpochs_rpn1 = 5;              % same as above. switching to 5.
       pram.maxEpochs_rcn  = 10; 
       pram.th_prop        = 0.5;            % if was 0.2; but trying 0.5 to stadarize. 
       pram.gtDistTh       = 10;             % distant threshold for postive labeling using distant between the proposal centroids vs gt centroids
@@ -61,7 +61,7 @@ function pram = pram_init()
       pram.runTissueSeg   = 0;
       pram.imreasizeFactor= 0.64;           % ???
       pram.miniBatchSize  = 256;            % ???
-      pram.Nx             = 64;             % ???
+      pram.Nx             = 32;             % ???
       pram.Nc             = 1;
       pram.Nclasses       = 7;              % classes here are backteria classes see readdata in bacteeria dataset
       pram.maxEpochs_rpn0 = 12;             % just for the rest of the code (rpn is not used here)
