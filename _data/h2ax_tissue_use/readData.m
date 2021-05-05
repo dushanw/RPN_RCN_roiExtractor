@@ -4,7 +4,7 @@ function I = readData(pram)
    
   In_imds_dir   = fullfile('./Imds_use');
   In_imds       = imageDatastore(In_imds_dir,'ReadFcn', @subf_readRescale5k );
-  I.test        = subf_normalize_tissue_to_1(In_imds.readall);
+  I.use         = subf_normalize_tissue_to_1(In_imds.readall);
   
   % make file name stems for saving results
   for i = 1:length(In_imds.Files)
