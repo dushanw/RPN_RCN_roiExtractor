@@ -78,7 +78,7 @@ function results_table = validate(Itest,Ltest,nameStem_test,net_rpn,net_rcn,pram
         L_now           = padarray(L_now,[Nx Nx]);
         I_now           = padarray(I_now,[Nx Nx]);
         Area_tissue_now = -1;
-      end                    
+      end 
       L_proposal        = apply_proposal_net(net_rpn,I_now,Nx);
       L_proposal(find(L_fg==0))=0;
 

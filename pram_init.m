@@ -3,8 +3,8 @@
 
 % datapaths
 function pram = pram_init()
-  pram.experimentType     = 'bacteria_qpm'; % {'nuc_tissue','h2ax_tissue','h2ax_cells','bacteria_qpm'}
-  pram.dataset            = 'bacteria_qpm';
+  pram.experimentType     = 'h2ax_tissue';  % {'nuc_tissue','h2ax_tissue','h2ax_cells','bacteria_qpm'}
+  pram.dataset            = 'h2ax_tissue';
                                             % {'nuc_tissue',
                                             %  'h2ax_tissue',
                                             %  'h2ax_cells',
@@ -12,7 +12,7 @@ function pram = pram_init()
                                             %  'h2ax_wadduwage2018automated_fig5',
                                             %  'bacteria_qpm'}
   pram.TrDataDir          = ['./_data/' pram.dataset '/'];
-  pram.UseDataDir         = ['./_data/' pram.dataset '/'];
+  pram.UseDataDir         = ['./_data/' pram.dataset '_use/'];
   
   % experiment type and dataset dependent parameters
   switch pram.experimentType

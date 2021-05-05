@@ -20,9 +20,14 @@ function [I_proposals centr_proposals Y_gt centroids_fn_rpn] = genRegionProposal
 %   Y_gt                = [];
 %   centroids_fn_rpn    = [];
 
-  [centr_proposals,...
-  Y_gt,...
-  centroids_fn_rpn] = f_match_propBW_2_gtBW(L_prop,L_gt,pram);
+  if ~isempty(L_gt)
+    [centr_proposals,...
+    Y_gt,...
+    centroids_fn_rpn] = f_match_propBW_2_gtBW(L_prop,L_gt,pram);
+  else
+    stats_proposals   = regionprops(L_prop,'Centroid');
+    centr_proposals   = cat(1,stats_proposals.Centroid);
+  end
 
   % remove proposals close to the boundary (from more than Nx/2)
   if ~isempty(centr_proposals)
