@@ -10,9 +10,12 @@ of  = cd(pram.UseDataDir);
 I   = readData(pram);     % I.use
 cd(of)
 
-
 %% use network
-load ./__trainedNetworks/rpn_64_02-Mar-2021.mat
-load ./__trainedNetworks/rcn_64_02-Mar-2021.mat
-use_pipeline(net_rpn,net_rcn,pram)
+%load ./__trainedNetworks/rpn_64_02-Mar-2021.mat  % legacy values
+%load ./__trainedNetworks/rcn_64_02-Mar-2021.mat
+
+load ./__trainedNetworks/rpn1_h2ax_tissue_h2ax_wadduwage2018automated_fig4_64_29-Mar-2021.mat % change these accordingly
+load ./__trainedNetworks/rcn_h2ax_tissue_h2ax_wadduwage2018automated_fig4_64_29-Mar-2021.mat  % change these accordingly
+
+use_pipeline(I.use,I.useNames,net_rpn,net_rcn,pram)
 

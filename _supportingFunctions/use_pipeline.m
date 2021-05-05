@@ -45,7 +45,6 @@ function use_pipeline(Iuse,nameStem_use,net_rpn,net_rcn,pram)
                           centroids(:,1) <= limXe & centroids(:,2) <= limYe;
       centroids         = centroids(idx_valid,:);
       YPred             = YPred(idx_valid);
-      Y_gt_now          = Y_gt_now(idx_valid);
     end
 
     %% analyse
